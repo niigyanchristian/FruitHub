@@ -159,8 +159,8 @@ export default function Home() {
 							</thead>
 							<tbody>
 
-								{wishlists.map((cart)=>(
-									<tr className="table-body-row">
+								{wishlists.map((cart,index)=>(
+									<tr key={index} className="table-body-row">
 									<td className="product-remove"><a onClick={async()=>{
 										var res= await DeleteFromWishlist(cart._id);
 										console.log(res)

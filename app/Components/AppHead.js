@@ -2,8 +2,8 @@
 function AppHead(props) {
 return (
 <head>
-	<meta charset="UTF-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta charSet="UTF-8"/>
+	<meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/"/>
 	<link rel="shortcut icon" type="image/png" href="/assets/img/favicon.png"/>

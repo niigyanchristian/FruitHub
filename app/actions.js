@@ -164,6 +164,38 @@ export const getAllShops =async()=>{
     return results.data;
 }
 
+export const GetProducts =async()=>{
+    const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
+
+    
+    const results = await axios({
+        method: 'get',
+        url: ' http://localhost:8000',
+        headers: {
+			'Authorization': `Bearer ${session.userToken}`
+		},
+      });
+
+
+    return results.data;
+}
+
+export const GetProductsByCategory =async(type)=>{
+    const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
+
+    
+    const results = await axios({
+        method: 'get',
+        url: `http://localhost:8000/category/${type}`,
+        headers: {
+			'Authorization': `Bearer ${session.userToken}`
+		},
+      });
+
+
+    return results.data;
+}
+
 export const getShopProducts =async(shop_id)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
@@ -236,8 +268,12 @@ export const DeleteFromWishlist =async(_id)=>{
     return results.data;
 }
 
-export const PlaceOrder =async(txnId,name,address,contact,note)=>{
+export const PlaceOrder =async(txnId,name,address,contact,note,longitude,latitude,deliveryFee)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
+
+    console.log('=========deliveryFee===========');
+    console.log(txnId,name,address,contact,note,longitude,latitude,deliveryFee);
+    console.log('====================================');
 
     const results = await axios({
         method: 'POST',
@@ -245,7 +281,7 @@ export const PlaceOrder =async(txnId,name,address,contact,note)=>{
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
-        data:{ txnNumber: txnId,name,address,contact,note }
+        data:{ txnNumber: txnId,name,address,contact,note,destCoords:{ lng:longitude,lat:latitude },deliveryFee}
       });
 
     return results.data;
@@ -375,7 +411,7 @@ export const DeleteProduct =async(product_Id)=>{
     return results.data;
 }
 
-export const CreateShop =async(name, desc, banner, address, contact, email)=>{
+export const CreateShop =async(name, desc, banner, address, contact, email,longitude,latitude)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
     const results = await axios({
@@ -385,11 +421,12 @@ export const CreateShop =async(name, desc, banner, address, contact, email)=>{
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
 		},
-        data:{ name, desc, banner, address, contact, email }
+        data:{ name, desc, banner, address, contact, email,locCoords:{lng:longitude,lat:latitude} }
       });
 
     return results.data;
 }
+
 export const getMyShopOrders =async(shop_id)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
@@ -406,18 +443,18 @@ export const getMyShopOrders =async(shop_id)=>{
     return newData;
 }
 
-export const UpdateDelivery =async(status,currentLocation,longitude,latitude,estimatedDeliveryDate,order_id)=>{
+export const UpdateDeliveryProduct =async(orderId, productId, newStatus)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
-    console.log(status,longitude,latitude,order_id)
+    console.log(orderId, productId, newStatus)
 
     const results = await axios({
         method: 'put',
-        url: `http://localhost:8000/shopping/order/${order_id}`,
+        url: `http://localhost:8000/shopping/order/${orderId}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
-        data:{ status,longitude,latitude,currentLocation,estimatedDeliveryDate }
+        data:{ productId, newStatus }
       });
     return results.data;
 }
@@ -438,6 +475,42 @@ export const getProductDetails =async(product_id)=>{
 }
 
 
+// Order and Delivery Management
+export const GetAllOrders =async()=>{
+    const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
+
+    const results = await axios({
+        method: 'get',
+        url: `http://localhost:8000/shopping/orders/all`,
+        headers: {
+			'Authorization': `Bearer ${session.userToken}`
+		}
+      });
+    return results.data;
+}
+
+export const UpdateOrder =async(order_id,status)=>{
+    const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
+
+    console.log('====================================');
+    console.log(order_id,status);
+    console.log('====================================');
+    const results = await axios({
+        method: 'PUT',
+        url: `http://localhost:8000/shopping/order/status/${order_id}`,
+        headers: {
+			'Authorization': `Bearer ${session.userToken}`
+		},
+        data:{status:status}
+      });
+
+    console.log('====================================');
+    console.log(results.data);
+    console.log('====================================');
+    return results.data;
+}
+
+
 // ====================================
 
 function Manipulator(data, shop_id) {
@@ -446,6 +519,7 @@ function Manipulator(data, shop_id) {
     data.forEach(order => {
         order.items.forEach(item => {
             if (item.product.shop_id === shop_id) {
+                item.orderId=order.orderId;
                 shopOrders.push(item);
             }
         });
@@ -455,4 +529,57 @@ function Manipulator(data, shop_id) {
     console.log("shopOrders=>",shopOrders.length);
     console.log('====================================');
     return shopOrders;
+}
+
+export const mapDistance =async(coords2)=>{
+
+// const origin = { lat: 37.7749, lng: -122.4194 }; // Example: San Francisco
+// const destination = { lat: 34.0522, lng: -118.2437 }; // Example: Los Angeles
+const coords1 = { lat: 5.655661, lng: -0.18277 }; // San Francisco
+// const coords2 = { lat: 34.0522, lng: -118.2437 }; // Los Angeles
+
+// const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+// const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin.lat},${origin.lng}&destinations=${destination.lat},${destination.lng}&key=${apiKey}`;
+
+// axios.get(url)
+//     .then(response => {
+//         const data = response.data;
+//         if (data.status === "OK") {
+//             const distance = data.rows[0].elements[0].distance;
+//             console.log(`Distance: ${distance.text} (${distance.value} meters)`);
+//         } else {
+//             console.error("Error fetching distance data:", data);
+//         }
+//     })
+//     .catch(error => {
+//         console.error("Error:", error);
+//     });
+
+function haversineDistance(coords1, coords2, isMiles = false) {
+    function toRad(x) {
+        return x * Math.PI / 180;
+    }
+
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = toRad(coords2.lat - coords1.lat);
+    const dLon = toRad(coords2.lng - coords1.lng);
+    const lat1 = toRad(coords1.lat);
+    const lat2 = toRad(coords2.lat);
+
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2); 
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+    let distance = R * c;
+
+    if (isMiles) {
+        distance /= 1.60934; // Convert kilometers to miles
+    }
+
+    return distance;
+}
+
+// Example usage:
+// console.log(`Distance: ${haversineDistance(coords1, coords2)} km`);
+// console.log(`Distance: ${haversineDistance(coords1, coords2, true)} miles`);
+    return haversineDistance(coords1, coords2)
 }

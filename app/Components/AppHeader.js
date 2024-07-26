@@ -63,14 +63,13 @@ return (
 											<li key={index}><a href={`/owner/shop/${shop._id}`}>{shop.name}</a></li>
 										))}
 										<li><a href="/shop/create">Create shop</a></li>
-										
 									</ul>
 								</li>
 								<li>
 									<div className="header-icons">
 										<a className="shopping-cart" href="/cart"><i className="fas fa-shopping-cart"></i></a>
 										<a className="shopping-cart" href="/wishlist"><i className="fas fa-heart"></i></a>
-										
+										{/* <a className="mobile-hide search-bar-icon" href="#"><i className="fas fa-heart"></i></a> */}
 									</div>
 								</li>
 							</ul>

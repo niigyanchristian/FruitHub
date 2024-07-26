@@ -38,10 +38,7 @@ export default function Home({ params }) {
 		return getMyShopDetails(data.shop_id);
 	}).then(data=>{
 
-		setProductShop(data)
-		console.log('====================================');
-		console.log(data);
-		console.log('====================================');
+		setProductShop(data);
 	})
   }, []);
 
@@ -139,15 +136,21 @@ export default function Home({ params }) {
 						
 						<div className="single-product-form">
 							<form action="index.html">
-								{/* <div className="qty">Quantity: {singleproducts.unit}</div> */}
-								<input id="qty" type="number" name="qty" placeholder="1"
+								<div className="qty">Quantity: {inputValue}</div>
+								
+								<input id="qty" type="range" name="qty"
 								value={inputValue}
+								max={singleproducts.unit}
+								min={1}
 								onChange={handleChange}
 								></input>
 							</form>
-							<a onClick={()=>{
+							<a onClick={async()=>{
 								var qty=document.getElementById('qty').value
-								AddToCart(singleproducts._id,qty,singleproducts.shop_id)
+								var res =await AddToCart(singleproducts._id,qty,singleproducts.shop_id);
+								if(res){
+									alert("Cart has been added successfully!")
+								}
 								}} className="cart-btn"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
 							<a onClick={async()=>{
 								var res = await AddToWishlist({_id:singleproducts._id});

@@ -1,5 +1,5 @@
 "use client"; // This is a client component 👈🏽
-import { AddToCart, AddToWishlist, getMyShops, getSession, updatePassword, updateProfle } from "@/app/actions";
+import { AddToCart, AddToWishlist, getMyShopDetails, getProductDetails, GetProducts, GetProductsByCategory, getSession } from "@/app/actions";
 import AppHead from "@/app/Components/AppHead";
 import AppHeader from "@/app/Components/AppHeader";
 import AppScripts from "@/app/Components/AppScripts";
@@ -8,25 +8,11 @@ export default function Home({ params }) {
 
 	const [domLoaded, setDomLoaded] = useState(false);
 	const [preLoad, setPreLoader] = useState(true);
-	const [myShops, setMyShops] = useState(null);
 	const [products, setProducts] = useState([]);
-	const [singleproducts, setSingleProduct] = useState([]);
+	const [categories, setCategories] = useState([]);
 	const [session, setSession] = useState(null);
 
-	const [inputFullName, setInputFullName] = useState(''); 
-	const [inputUsername, setInputUsername] = useState(''); 
-	const [inputEmail, setInputEmail] = useState(''); 
-	const [inputPhone, setInputPhone] = useState(''); 
-	const [inputPasswordNew, setInputPasswordNew] = useState(''); 
-	const [inputPasswordCurrent, setInputPasswordCurrent] = useState(''); 
 
-
-	const handleChangeFullName = (event) =>setInputFullName(event.target.value);
-	const handleChangeUsername = (event) =>setInputUsername(event.target.value);
-	const handleChangeEmail = (event) =>setInputEmail(event.target.value);
-	const handleChangePhone = (event) =>setInputPhone(event.target.value);
-	const handleChangePasswordNew = (event) =>setInputPasswordNew(event.target.value);
-	const handleChangePasswordCurrent = (event) =>setInputPasswordCurrent(event.target.value);
 
 
   useEffect(() => {
@@ -35,16 +21,15 @@ export default function Home({ params }) {
 
 	getSession().
 	then(data=>{
-		setSession(data);
-		console.log("Session:",data)
-		setInputUsername(data.userUsername)
-		setInputEmail(data.userEmail)
-		setInputPhone(data.userPhone)
-		setInputFullName(data.userProfile.full_name)
-		return getMyShops();
-	}).then(data=>{
-		setMyShops(data)
-	})
+		// setSession(data);
+		// console.log("Session:",data)
+	});
+
+	GetProducts().
+	then(data=>{
+		setProducts(data.products)
+		setCategories(data.categories)
+	});
   }, []);
 
   function myLoad(){
@@ -52,8 +37,6 @@ export default function Home({ params }) {
 		setPreLoader(false)
 	},1500)
   }
-
-
 
 
   return (
@@ -100,8 +83,8 @@ export default function Home({ params }) {
 			<div className="row">
 				<div className="col-lg-8 offset-lg-2 text-center">
 					<div className="breadcrumb-text">
-						<p>See more Details</p>
-						<h1>Single Product</h1>
+						<h1>Fruits</h1>
+						<p>See more products</p>
 					</div>
 				</div>
 			</div>
@@ -109,127 +92,48 @@ export default function Home({ params }) {
 	</div>
 	 {/* end breadcrumb section  */}
 
-	  {/* Update profile section  */}
-	<div className="mt-150 mb-150">
+	 {/* more products  */}
+	<div className="more-products mb-150 mt-5">
 		<div className="container">
-			<div className="row">
-				<div className="col-lg-8">
-					<div className="single-article-section">
-						<div className="comments-list-wrap">
-							<h3 className="comment-count-title">{session?.userProfile.full_name}</h3>
-							<div className="comment-list">
-								<div className="single-comment-body">
-									<div className="comment-user-avater">
-										<img src="assets/img/avaters/avatar1.png" alt=""/>
-									</div>
-									<div className="comment-text-body">
-										<h4>{session?.userUsername}</h4>
-										<p><i className="fa fa-envelope"></i> {session?.userEmail}</p>
-										<p><i className="fa fa-phone"></i> {session?.userPhone}</p>
-										<p><strong>Role:</strong> {session?.userProfile.role}</p>
-										<h4>My shops</h4>
-										{(!myShops||myShops.length==0)?(<p>You have no shop. <a href="/shop/create">Click here to create one</a></p>):(<ul>
-											{myShops?.map((shop,index)=>(
-												<li key={index}>{shop.name}</li>
-											))}
-										</ul>)}
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div className="comment-template">
-							<h4>Update profile</h4>
-							<p>If you have a comment dont feel hesitate to send us your opinion.</p>
-							<form>
-								<p>
-									<input type="text" placeholder="Full Name"
-									value={inputFullName}
-									onChange={handleChangeFullName}
-									/> <a> </a>
-									<input type="text" placeholder="Username"
-									value={inputUsername}
-									onChange={handleChangeUsername}/>
-								</p>
-
-								<p>
-									<input type="text" placeholder="Phone"
-									value={inputPhone}
-									onChange={handleChangePhone}/>
-									<input type="email" placeholder="Email"
-									value={inputEmail}
-									onChange={handleChangeEmail}
-									/>
-								</p>
-								{/* <p><textarea name="comment" id="comment" cols="30" rows="10" placeholder="Your Message"></textarea></p> */}
-								<a className="cart-btn" 
+		<div className="row">
+                <div className="col-md-12">
+                    <div className="product-filters">
+                        <ul>
+                            <li className="active" data-filter="*" 
+							onClick={async()=>{
+								const res = await GetProducts();
+								setProducts(res.products);
+								setCategories(res.categories);
+							}}>All</li>
+                            
+							{categories.map((item,index)=>(
+								<li key={index} data-filter=".strawberry" 
 								onClick={async()=>{
-									var res =await updateProfle(inputUsername,inputEmail,inputPhone,inputFullName);
-
-									if(res==201){
-										alert('Profile updated!');
-									}
-									getSession().
-									then(data=>{
-										setSession(data);
-										setInputUsername(data.userUsername)
-										setInputEmail(data.userEmail)
-										setInputPhone(data.userPhone)
-										setInputFullName(data.userProfile.full_name)
-										return getMyShops();
-									})
-								}}>Update Profile</a>
-							</form>
+									const res = await GetProductsByCategory(item);
+									setProducts(res);
+								}}>{item}</li>
+							))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+			<div className="row">
+				{products.map((product,index)=>(
+					<div key={index} className="col-lg-4 col-md-6 text-center">
+					<div className="single-product-item">
+						<div className="product-image">
+							<a href={`/products/${product._id}`}><img src={`/assets/img/products/${product.banner}`} alt=""/></a>
 						</div>
+						<h3>{product.name}</h3>
+						<p className="product-price"><span>{product.unit} in stock</span> ${product.price} </p>
+						<a href="cart.html" className="cart-btn"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
 					</div>
-				</div>
+					</div>
+				))}
 			</div>
 		</div>
 	</div>
-
-	 {/* end Update profile section  */}
-	 <div className="col-lg-8 mx-auto" style={{height:'1px',backgroundColor:'red'}}></div>
-	  {/* Update profile section  */}
-	<div className="mt-150 mb-150">
-		<div className="container">
-			<div className="row">
-				<div className="col-lg-8">
-					<div className="single-article-section">
-						<div className="comment-template">
-							<h4>Change password</h4>
-							<p>You can change your password here.</p>
-							<form>
-								<p>
-									<input type="password" placeholder="Current password"
-									value={inputPasswordCurrent}
-									onChange={handleChangePasswordCurrent}
-									/>
-									<br/>
-									<input type="password" placeholder="New password"
-									value={inputPasswordNew}
-									onChange={handleChangePasswordNew}/>
-								</p>
-								{/* <p><textarea name="comment" id="comment" cols="30" rows="10" placeholder="Your Message"></textarea></p> */}
-								<a className="cart-btn" 
-								onClick={async()=>{
-									var res =await updatePassword(inputPasswordCurrent,inputPasswordNew);
-									alert(res.toString());
-									getSession().
-									then(data=>{
-										setSession(data);
-										setInputPasswordCurrent('')
-										setInputPasswordNew('')
-									})
-
-								}}>Change Password</a>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	 {/* end Update profile section  */}
+	 {/* end more products  */}
 
 	 {/* logo carousel  */}
 	<div className="logo-carousel-section">
@@ -295,7 +199,7 @@ export default function Home({ params }) {
 					<div className="footer-box subscribe">
 						<h2 className="widget-title">Subscribe</h2>
 						<p>Subscribe to our mailing list to get the latest updates.</p>
-						<form>
+						<form action="index.html">
 							<input type="email" placeholder="Email"/>
 							<button type="submit"><i className="fas fa-paper-plane"></i></button>
 						</form>

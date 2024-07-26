@@ -114,11 +114,11 @@ export default function Home({params}) {
             </div>
 
 			<div className="row product-lists">
-				{products.map((product)=>(
-                    <div className="col-lg-4 col-md-6 text-center strawberry">
+				{products.map((product,index)=>(
+                    <div key={index} className="col-lg-4 col-md-6 text-center strawberry">
 					<div className="single-product-item">
 						<div className="product-image">
-							<a href={`/product/${product._id}`}><img src="/assets/img/products/product-img-1.jpg" alt=""/></a>
+							<a href={`/product/${product._id}`}><img src={`/assets/img/products/${product.banner}`} alt=""/></a>
 						</div>
 						<h3>{product.name}</h3>
 						<p className="product-price"><span>Per Kg</span> ${product.price} </p>

@@ -30,7 +30,7 @@ function AppMapComponent({title='Track your orders',orders=[]}) {
                     lat: parseFloat(element.latitude),
                     lng: parseFloat(element.longitude)
                 },
-                title: "Nii"
+                title: element.orderId
             });
         });
         if (navigator.geolocation) {
@@ -67,9 +67,9 @@ function AppMapComponent({title='Track your orders',orders=[]}) {
 }, []);
 
 return (
-<div className="col-lg-10 mx-auto">
+<div className="col-lg-10 mx-auto mt-5">
 <h3>{title}</h3>
-<div style={{height:600,border:1,marginTop:'20px'}} ref={mapRef}/>
+<div style={{height:600,border:1}} ref={mapRef}/>
 </div>
 );
 }

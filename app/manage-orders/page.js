@@ -11,7 +11,7 @@ import AppCopyRight from "../Components/AppCopyRight";
 import AppCompanies from "../Components/AppCompanies";
 import AppMapScripts from "../Components/AppMapScripts";
 import AppHeadForProfile from "../Components/AppHeadForProfile";
-import { FindDeliveiresByIds, getSession, GetShoppingDetails } from "../actions";
+import { FindDeliveiresByIds, GetAllOrders, getSession, GetShoppingDetails, UpdateOrder } from "../actions";
 import AppMapComponent from "../Components/AppMapComponent";
 
 export default function Home() {
@@ -19,35 +19,39 @@ export default function Home() {
 	const [domLoaded, setDomLoaded] = useState(false);
 	const [preLoad, setPreLoader] = useState(true);
 	const [orders, setOrders] = useState([]);
+	const [selected, setSelected] = useState();
 	const [mapOrders, setMapOrders] = useState(null);
 	const [carts, setCarts] = useState([]);
 	const [wishlist, setWishlist] = useState([]);
-	const [selected, setSelected] = useState();
-	const [Subtotal, setSubtotal] = useState(0);
-	const [shipping, setShipping] = useState(0);
+	const [status, setStatus] = useState('');
+	// const [Subtotal, setSubtotal] = useState(0);
+	// const [shipping, setShipping] = useState(0);
 
+	const handleChangeStatus = (event) => {
+		setStatus(event.target.value);
+	  };
   useEffect(() => {
     setDomLoaded(true);
 	myLoad();
 
-	GetShoppingDetails().
+	GetAllOrders().
 	then(data=>{
 		console.log('====================================');
-		console.log("Order:",data.orders);
+		console.log("Order:",data);
 		console.log('====================================');
-		setCarts(data.cart)
-		// setOrders(data.orders);
-		setWishlist(data.wishlist);
-		const orderIds = data.orders.map(order => order.orderId);
+		// setCarts(data.cart)
+		setOrders(data.reverse());
+		// setWishlist(data.wishlist);
+		// const orderIds = data.orders.map(order => order.orderId);
 
 		
-		return FindDeliveiresByIds(orderIds)
+		// return FindDeliveiresByIds(orderIds)
 	}).then(data=>{
-		console.log('====================================');
-		console.log("My orders",data);
-		setMapOrders(data)
-		setOrders(data)
-		console.log('====================================');
+		// console.log('====================================');
+		// console.log(data);
+		// setMapOrders(data)
+		// setOrders(data)
+		// console.log('====================================');
 	})
 	// LoadSingleProduct();
   }, []);
@@ -58,6 +62,13 @@ export default function Home() {
 	},1500)
   }
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+	if(status==''){
+		alert('Select a status');
+		return;
+	}
+  };
 
 
  
@@ -116,8 +127,6 @@ export default function Home() {
 
 
 	{/* {mapOrders&&<AppMapComponent orders={mapOrders}/>} */}
-
-
 	{/* check out section */}
 	<div className="checkout-section mt-150 mb-150">
 		<div className="container">
@@ -131,35 +140,69 @@ export default function Home() {
 						    <div className="card-header" id="headingOne">
 						      <h5 className="mb-0">
 						        <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                ORDER #FUR{order.orderId.toString().substr(0,8)}
+                                ORDER #FUR{order.orderId.toString().substr(0,8)} - STATUS <a href="">{order.status}</a>
 						        </button>
 						      </h5>
 						    </div>
 
-						    <div id="collapseOne" className={`collapse ${selected==order._id?'show':''}`} aria-labelledby="headingOne" data-parent="#accordionExample">
+						    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 						      <div className="card-body">
 						        <div className="billing-address-form">
-						        	<span className="fas fa-calendar-alt ml-2"> {order.createdAt.toString().substr(0,10)}</span>
-						        	<div className="progressbar-track">
-                                    <ul className="progressbar row">
-                                        <li id="step-1" className="text-muted green mr-5">
-                                            <span className="fas fa-box ml-2" style={{color:order.status=='On Hold'?'#F28123':null}}> On Hold</span>
-                                        </li>
-                                        <li id="step-2" className="text-muted green mx-5">
-                                            <span className="fas fa-gift ml-2" style={{color:order.status=='Ready'?'#F28123':null}}> Ready</span>
-                                        </li>
-                                        <li id="step-3" className="text-muted green ">
-                                            <span className="fas fa-truck ml-2" style={{color:order.status=='Shipping'?'#F28123':null}}> Shipped</span>
-                                        </li>
-                                        <li id="step-4" className="text-muted green mx-5">
-                                            <span className="fas fa-box-open ml-2" style={{color:order.status=='Delivered'?'#F28123':null}}> Delivered</span>
-                                        </li>
-                                    </ul>
-                                    </div>
-                                    {/* <div id="tracker"></div> */}
+								<div className="order-details-wrap">
+						<table className="order-details" style={{width:'100%'}}>
+							<thead>
+								<tr>
+									<th>Products</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody className="order-details-body">
+								{order.items.map((item,index2)=>(
+									<tr key={index2}>
+										<td><i className="fas fa-gift"></i>{item.product.name}</td>
+										<td>{item.product.status}</td>
+									</tr>
+								))}
+								
+							</tbody>
+						</table>
+					</div>
 						        </div>
 						      </div>
 						    </div>
+
+							<div className="card-body">
+						        <div className="billing-address-form">
+										<label>Change status</label>
+						        	<form onSubmit={handleSubmit}>
+						        		{/* <p><input type="text" placeholder="Name"
+										// value={'name'}
+										// onChange={handleChangeName}
+										/></p> */}
+										<p>
+										<select value={status} onChange={handleChangeStatus}>
+											<option value="">{order.status}</option>
+											<option value="On Hold">On Hold</option>
+											<option value="Ready">Ready</option>
+											<option value="Shipping">Shipping</option>
+											<option value="Delivered">Delivered</option>
+											<option value="Cancelled">Cancelled</option>
+										</select>
+										</p>
+										<a className="cart-btn"
+										onClick={async ()=>{
+											var res =await UpdateOrder(order._id,status);
+											GetAllOrders().
+											then(data=>{
+												setOrders(data.reverse());
+											});
+
+										}}>
+										Submit
+										</a>
+						        	</form>
+						        </div>
+						      </div>
 						  </div>
 						  ))}
 						</div>
@@ -206,10 +249,6 @@ export default function Home() {
 								</tr>
 							</tbody> */}
 						</table>
-						{/* <a onClick={()=>PlaceOrder()} className="boxed-btn">Place Order</a> */}
-						{/* <PaystackConsumer {...componentProps} >
-          {({initializePayment}) => <a className="boxed-btn" onClick={() => initializePayment(handleSuccess, handleClose)}>Place Order</a>}
-        </PaystackConsumer> */}
 					</div>
 				</div>
 			</div>

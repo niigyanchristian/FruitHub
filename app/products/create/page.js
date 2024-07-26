@@ -317,8 +317,8 @@ export default function Home() {
 							<select id="shop_id" name="shop_id" required>
 									<option value="">Select shop</option>
 									
-									{shops.map((shop)=>(
-										<option value={shop._id}>{shop.name}</option>))}
+									{shops.map((shop,index)=>(
+										<option key={index} value={shop._id}>{shop.name}</option>))}
 								</select>
 							</p>
 							<p><textarea name="desc" id="desc" cols="30" rows="10" placeholder="Description"></textarea></p>

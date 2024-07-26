@@ -6,7 +6,7 @@ import AppScripts from "@/app/Components/AppScripts";
 import AppHeader from "@/app/Components/AppHeader";
 import AppFooter from "@/app/Components/AppFooter";
 import AppCopyRight from "@/app/Components/AppCopyRight";
-import { DeleteProduct, getMyShopDetails, getMyShopOrders, getMyShops, getProductDetails, getSession, getShopProducts, UpdateDelivery } from "@/app/actions";
+import { DeleteProduct, getMyShopDetails, getMyShopOrders, getMyShops, getProductDetails, getSession, getShopProducts } from "@/app/actions";
 import AppProductComponent from "@/app/Components/AppProductComponent";
 import AppMapComponent from "@/app/Components/AppMapComponent";
 import AppEditProductComponent from "@/app/Components/AppEditProductComponent";

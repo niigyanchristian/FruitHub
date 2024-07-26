@@ -6,7 +6,7 @@ import AppScripts from "@/app/Components/AppScripts";
 import AppHeader from "../../../Components/AppHeader";
 import AppFooter from "../../../Components/AppFooter";
 import AppCopyRight from "../../../Components/AppCopyRight";
-import { DeleteProduct, getMyShopDetails, getMyShopOrders, getMyShops, getSession, getShopProducts, UpdateDelivery } from "@/app/actions";
+import { DeleteProduct, getMyShopDetails, getMyShopOrders, getMyShops, getSession, getShopProducts, UpdateDeliveryProduct } from "@/app/actions";
 import AppProductComponent from "@/app/Components/AppProductComponent";
 import AppMapComponent from "@/app/Components/AppMapComponent";
 
@@ -44,6 +44,9 @@ export default function Home({params}) {
 	getMyShops().then(data=>setMyShops(data));
 	getMyShopOrders(params.id).then(data=>{
 		setOrders(data)
+		console.log('====================================');
+		console.log("My Shop Orders:",data);
+		console.log('====================================');
 	});
 	// getMyShopOrder
 
@@ -140,11 +143,13 @@ export default function Home({params}) {
 						<div className="recent-posts">
 							<h4>Recent Products</h4>
 							<ul>
-								<li><a href="single-news.html">You will vainly look for fruit on it in autumn.</a></li>
-								<li><a href="single-news.html">A man's worth has its season, like tomato.</a></li>
+								{products.map((product,index)=>(
+									<li key={index}><a href="single-news.html">{product.name}</a></li>
+								))}
+								{/* <li><a href="single-news.html">A man's worth has its season, like tomato.</a></li>
 								<li><a href="single-news.html">Good thoughts bear good fresh juicy fruit.</a></li>
 								<li><a href="single-news.html">Fall in love with the fresh orange</a></li>
-								<li><a href="single-news.html">Why the berries always look delecious</a></li>
+								<li><a href="single-news.html">Why the berries always look delecious</a></li> */}
 							</ul>
 						</div>
 						<div className="tag-section">
@@ -221,6 +226,7 @@ export default function Home({params}) {
 								ORDER <a style={{color:'#F28123'}}>#{order._id.toString().substr(14,24)}</a>  - PRICE: <a style={{color:'#F28123'}}>${order.product.price}</a> 
 								-  PRODUCT: <a style={{color:'#F28123'}}>{order.product.name}</a> 
 								- COUNT: <a style={{color:'#F28123'}}>{order.unit}</a> 
+								- STATUS: <a style={{color:'#F28123'}}>{order.product.status}</a> 
 								</button>
 								</h5>
 							</div>
@@ -233,37 +239,24 @@ export default function Home({params}) {
 										{/* Status */}
 										<select  value={status}
 								onChange={handleChangeStatus}>
-										<option value="Placed">Select status</option>
-										<option value="Placed">Placed</option>
-										<option value="Accepted">Accepted</option>
-										<option value="Packed">Packed</option>
-										<option value="Shipped">Shipped</option>
+										<option value="">Select status</option>
+										<option value="On Hold">On Hold</option>
 										<option value="Delivered">Delivered</option>
-										</select> <a></a>
-										<input type="text" placeholder="Current location" value={currentLocation}
-								onChange={handleChangecurrentLocation}/>
+										</select>
+										<a> </a>
+										{/* <input type="date" placeholder="Latitude" id="dob" value={estimatedDeliveryDate}
+							onChange={handleChangeEstimatedDeliveryDate}/> */}
 										</p>
-									
-								<p>
-								<input type="text" placeholder="Longitude" value={longitude} onChange={handleChangeLongitude}/> <a></a>
-								<input type="text" placeholder="Latitude" value={latitude}
-								onChange={handleChangeLatitude}/>
-								</p>
 
-								<p><input type="date" placeholder="Latitude" id="dob" value={estimatedDeliveryDate}
-							onChange={handleChangeEstimatedDeliveryDate}/></p>
+								<p></p>
 
 									<a className="cart-btn" onClick={async()=>{
-										var res =await UpdateDelivery(status,currentLocation,longitude,latitude,estimatedDeliveryDate,order._id);
-										setCurrentLocation('');
-										setEstimatedDeliveryDate('');
-										setLatitude('');
-										setLongitude('');
+										var res =await UpdateDeliveryProduct(order.orderId,order.product._id,status);
 										
 										if(res._id){
 											console.log(res)
 											alert("Delivery updated!")
-											getMyShopOrders().then(data=>{
+											getMyShopOrders(params.id).then(data=>{
 												setOrders(data)
 											});
 										}

@@ -154,8 +154,8 @@ export default function Home() {
 							</thead>
 							<tbody>
 
-								{carts.map((cart)=>(
-									<tr className="table-body-row">
+								{carts.map((cart,index)=>(
+									<tr key={index} className="table-body-row">
 									<td className="product-remove"><a onClick={()=>{
 										DeleteCart(cart.product._id,session.userToken)
 									}}><i className="far fa-window-close"></i></a></td>
@@ -166,22 +166,6 @@ export default function Home() {
 									<td className="product-total">{cart.product.price*cart.unit}</td>
 								</tr>
 								))}
-								{/* <tr className="table-body-row">
-									<td className="product-remove"><a href="#"><i className="far fa-window-close"></i></a></td>
-									<td className="product-image"><img src="assets/img/products/product-img-2.jpg" alt=""/></td>
-									<td className="product-name">Berry</td>
-									<td className="product-price">$70</td>
-									<td className="product-quantity"><input type="number" placeholder="0"/></td>
-									<td className="product-total">1</td>
-								</tr>
-								<tr className="table-body-row">
-									<td className="product-remove"><a href="#"><i className="far fa-window-close"></i></a></td>
-									<td className="product-image"><img src="assets/img/products/product-img-3.jpg" alt=""/></td>
-									<td className="product-name">Lemon</td>
-									<td className="product-price">$35</td>
-									<td className="product-quantity"><input type="number" placeholder="0"/></td>
-									<td className="product-total">1</td>
-								</tr> */}
 							</tbody>
 						</table>
 					</div>

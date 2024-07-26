@@ -15,8 +15,8 @@ return (
 			</div>
 
 			<div className="row">
-				{shops.map((shop)=>(
-                    <div className="col-lg-4 col-md-6">
+				{shops.map((shop,index)=>(
+                    <div key={index} className="col-lg-4 col-md-6">
 					<div className="single-latest-news">
 						<a href={`/shop/${shop._id}`}><img className="latest-news-bg news-bg-1" src={`/assets/img/latest-news/${shop.banner}`}/></a>
 						<div className="news-text-box">

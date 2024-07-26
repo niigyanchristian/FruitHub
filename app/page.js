@@ -10,7 +10,7 @@ import AppHeader from "./Components/AppHeader";
 import AppFooter from "./Components/AppFooter";
 import AppCopyRight from "./Components/AppCopyRight";
 import AppCompanies from "./Components/AppCompanies";
-import { AddToCart, getAllShops, getMyShops, getSession } from "./actions";
+import { AddToCart, getAllShops, getMyShops, getSession, mapDistance } from "./actions";
 import { redirect } from "next/navigation";
 import ShopComponent from "./Components/ShopComponent";
 // import 'assets/js/bootstrap.bundle.min.js';
@@ -30,9 +30,13 @@ export default function Home() {
 	LoadProducts()
 	myLoad();
 
+	// mapDistance().then(data=>{
+	// 	console.log('====================================');
+	// 	console.log("mapDistance=>",data);
+	// 	console.log('====================================');
+	// })
 	getAllShops().
 	then(data=>setAllShops(data.reverse().slice(0,3)));
-
 	getMyShops().then(data=>{
 		console.log('====================================');
 		console.log("data:",data);
@@ -109,7 +113,7 @@ export default function Home() {
 							<p className="subtitle">Fresh & Organic</p>
 							<h1>Delicious Seasonal Fruits</h1>
 							<div className="hero-btns">
-								<a href="shop.html" className="boxed-btn">Fruit Collection</a>
+								<a href="/products" className="boxed-btn">Fruit Collection</a>
 								<a href="contact.html" className="bordered-btn">Contact Us</a>
 							</div>
 						</div>
@@ -181,7 +185,7 @@ export default function Home() {
 					<div key={index} className="col-lg-4 col-md-6 text-center">
 					<div className="single-product-item">
 						<div className="product-image">
-							<a href={`/product/${product._id}`}><img src={`assets/img/products/${product.banner}`} alt=""/></a>
+							<a href={`/products/${product._id}`}><img src={`assets/img/products/${product.banner}`} alt=""/></a>
 						</div>
 						<h3>{product.name}</h3>
 						<p className="product-price"><span>{product.unit} in stock</span> ${product.price} </p>
