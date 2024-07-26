@@ -136,8 +136,14 @@ export default function Home() {
 					<div className="checkout-accordion-wrap">
 						<div className="accordion" id="accordionExample">
 						  {orders.map((order,index)=>(
-							<div onClick={()=>setSelected(order._id)} key={index} className="card single-accordion">
-						    <div className="card-header" id="headingOne">
+							<div key={index} className="card single-accordion">
+						    <div onClick={()=>{
+								if(order._id == selected){
+									setSelected('')
+									return
+								}
+								setSelected(order._id)
+							}} className="card-header" id="headingOne">
 						      <h5 className="mb-0">
 						        <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 ORDER #FUR{order.orderId.toString().substr(0,8)} - STATUS <a href="">{order.status}</a>
@@ -145,33 +151,31 @@ export default function Home() {
 						      </h5>
 						    </div>
 
-						    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						    <div id="collapseOne" className={`collapse ${selected==order._id?'show':''}`} aria-labelledby="headingOne" data-parent="#accordionExample">
 						      <div className="card-body">
 						        <div className="billing-address-form">
 								<div className="order-details-wrap">
-						<table className="order-details" style={{width:'100%'}}>
-							<thead>
-								<tr>
-									<th>Products</th>
-									<th>Status</th>
-								</tr>
-							</thead>
-							<tbody className="order-details-body">
-								{order.items.map((item,index2)=>(
-									<tr key={index2}>
-										<td><i className="fas fa-gift"></i>{item.product.name}</td>
-										<td>{item.product.status}</td>
-									</tr>
-								))}
-								
-							</tbody>
-						</table>
-					</div>
+									<table className="order-details" style={{width:'100%'}}>
+										<thead>
+											<tr>
+												<th>Products</th>
+												<th>Status</th>
+											</tr>
+										</thead>
+										<tbody className="order-details-body">
+											{order.items.map((item,index2)=>(
+												<tr key={index2}>
+													<td><i className="fas fa-gift"></i>{item.product.name}</td>
+													<td>{item.product.status}</td>
+												</tr>
+											))}
+											
+										</tbody>
+									</table>
+								</div>
 						        </div>
 						      </div>
-						    </div>
-
-							<div className="card-body">
+							  <div className="card-body">
 						        <div className="billing-address-form">
 										<label>Change status</label>
 						        	<form onSubmit={handleSubmit}>
@@ -196,13 +200,15 @@ export default function Home() {
 											then(data=>{
 												setOrders(data.reverse());
 											});
-
 										}}>
 										Submit
 										</a>
 						        	</form>
 						        </div>
 						      </div>
+						    </div>
+
+							
 						  </div>
 						  ))}
 						</div>

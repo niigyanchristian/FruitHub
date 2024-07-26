@@ -1,7 +1,7 @@
-"use client"; // This is a client component 👈🏽
+"use client";
 import { useEffect, useState } from "react";
 import { PaystackConsumer } from 'react-paystack';
-
+import '@/public/assets/css/login-regiser.css';
 
 import AppHead from "@/app/Components/AppHead";
 import AppScripts from "@/app/Components/AppScripts";
@@ -44,7 +44,7 @@ export default function Home() {
     <meta charSet="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>FruitHub</title>
-    <link rel="stylesheet" href="/assets/css/login-regiser.css"/>
+    {/* <link rel="stylesheet" href=" "/> */}
     <link rel="shortcut icon" type="image/png" href="/assets/img/favicon.png"/>
 </head>
 <body>
@@ -87,7 +87,6 @@ export default function Home() {
                     <label for="email">Password</label>
                 </div>
                 <div className="remember-forgot">
-                    <label><input type="checkbox"/>Remember me</label>
                     <a href="#">Forgot password?</a>
                 </div>
                 <div className="btn login" style={{display:'flex',justifyContent:'center',alignItems:'center'}} onClick={async()=>{
@@ -95,7 +94,7 @@ export default function Home() {
                     res? alert(res.error):null;
                 }}><p>Login</p></div>
                 <div className="login-register">
-                    <p>Don't have an account? <a href="#" className="register-link">Register</a></p>  
+                    <p>Don't have an account? <a className="register-link">Register</a></p>  
                 </div>
             </form>
         </div>
@@ -131,14 +130,14 @@ export default function Home() {
 
 
 
-                <div className="remember-forgot">
+                {/* <div className="remember-forgot">
                     <label><input type="checkbox"/>I agree to the terms & conditions</label>
-                </div>
+                </div> */}
 
                 <div className="btn login" style={{display:'flex',justifyContent:'center',alignItems:'center'}} onClick={()=>regiser(inputValueUsername,inputValueEmail,inputValuePassword)}><p>Register</p></div>
                 
                 <div className="login-register">
-                    <p>Already have an account? <a href="#" className="login-link">Login</a></p>
+                    <p>Already have an account? <a className="login-link">Login</a></p>
                 </div>
             </form>
         </div>
