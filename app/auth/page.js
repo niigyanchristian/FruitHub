@@ -12,7 +12,7 @@ import AppCompanies from "../Components/AppCompanies";
 import Script from "next/script";
 import { login, regiser } from "../actions";
 
-export default function Home() {
+export default function LogIn() {
 
 	const [domLoaded, setDomLoaded] = useState(false);
 	const [inputValueEmail, setInputValueEmail] = useState(''); 

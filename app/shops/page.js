@@ -1,33 +1,26 @@
 "use client";
-import { GetProducts, GetProductsByCategory } from "@/app/actions";
+import { useEffect, useState } from "react";
+import { GetAllShops } from "@/app/actions";
 import AppHead from "@/app/Components/AppHead";
 import AppHeader from "@/app/Components/AppHeader";
 import AppScripts from "@/app/Components/AppScripts";
-import { useEffect, useState } from "react";
-import AppProductCard from "../Components/AppProductCard";
 import AppFooter from "../Components/AppFooter";
 import AppCopyRight from "../Components/AppCopyRight";
 import AppCompanies from "../Components/AppCompanies";
-export default function Home({ params }) {
+import AppShopCard from "../Components/AppShopCard";
 
+
+export default function Home({ params }) {
 	const [domLoaded, setDomLoaded] = useState(false);
 	const [preLoad, setPreLoader] = useState(true);
-	const [products, setProducts] = useState([]);
-	const [categories, setCategories] = useState([]);
-	const [session, setSession] = useState(null);
-
-
+	const [shops, setShops] = useState([]);
 
 
   useEffect(() => {
     setDomLoaded(true);
 	myLoad();
 
-	GetProducts().
-	then(data=>{
-		setProducts(data.products)
-		setCategories(data.categories)
-	});
+	GetAllShops().then(data=>setShops(data));
   }, []);
 
   function myLoad(){
@@ -81,8 +74,8 @@ export default function Home({ params }) {
 			<div className="row">
 				<div className="col-lg-8 offset-lg-2 text-center">
 					<div className="breadcrumb-text">
-						<h1>Fruits</h1>
-						<p>See more products</p>
+						<h1>Shops</h1>
+						<p>See more shops</p>
 					</div>
 				</div>
 			</div>
@@ -90,48 +83,18 @@ export default function Home({ params }) {
 	</div>
 	 {/* end breadcrumb section  */}
 
-	 {/* more products  */}
-	<div className="more-products mb-150 mt-5">
-		<div className="container">
-		<div className="row">
-                <div className="col-md-12">
-                    <div className="product-filters">
-                        <ul>
-                            <li className="active" data-filter="*" 
-							onClick={async()=>{
-								const res = await GetProducts();
-								setProducts(res.products);
-								setCategories(res.categories);
-							}}>All</li>
-                            
-							{categories.map((item,index)=>(
-								<li key={index} data-filter=".strawberry" 
-								onClick={async()=>{
-									const res = await GetProductsByCategory(item);
-									setProducts(res);
-								}}>{item}</li>
-							))}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-			<div className="row">
-				{products.map((product,index)=>(
-					// <div key={index} className="col-lg-4 col-md-6 text-center">
-					// <div className="single-product-item">
-					// 	<div className="product-image">
-					// 		<a href={`/products/${product._id}`}><img src={`/assets/img/products/${product.banner}`} alt=""/></a>
-					// 	</div>
-					// 	<h3>{product.name}</h3>
-					// 	<p className="product-price"><span>{product.unit} in stock</span> ${product.price} </p>
-					// 	<a href="cart.html" className="cart-btn"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
-					// </div>
-					// </div>
-					<AppProductCard key={index} product={product}/>
-				))}
+	  {/* latest news  */}
+	<div class="latest-news mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+			{shops.map((shop,index)=>(
+                    <AppShopCard key={index} shop={shop}/>
+                ))}				
 			</div>
 		</div>
 	</div>
+	 {/* end latest news  */}
+
 	 {/* end more products  */}
 
 	 {/* logo carousel  */}

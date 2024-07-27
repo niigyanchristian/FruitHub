@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getMyShops } from "../actions";
 
-function AppHeader({}) {
+function AppHeader() {
 	const [myShops, setMyShops] = useState([]);
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ return (
 						 {/* menu start  */}
 						<nav className="main-menu">
 							<ul>
-								<li className="current-list-item"><a href="#">Home</a>
+								<li className="current-list-item"><a href="/">Home</a>
 									<ul className="sub-menu">
 										<li><a href="/">Static Home</a></li>
 										{/* <li><a href="index_2.html">Slider Home</a></li> */}
@@ -43,12 +43,6 @@ return (
 										<li><a href="contact.html">Contact</a></li>
 										<li><a href="news.html">News</a></li>
 										<li><a href="shop.html">Shop</a></li>
-									</ul>
-								</li>
-
-								<li><a href="contact.html">Contact</a></li>
-								<li><a href="shop.html">Shop</a>
-									<ul className="sub-menu">
 										<li><a href="/shop">Shop</a></li>
 										<li><a href="/product/create">Create Product</a></li>
 										<li><a href="/checkout">Check Out</a></li>
@@ -57,6 +51,8 @@ return (
 										<li><a href="/cart">Cart</a></li>
 									</ul>
 								</li>
+
+								<li><a href="/shops">Shops</a></li>
 								<li><a href="shop.html">My Shops</a>
 									<ul className="sub-menu">
 										{myShops?.map((shop,index)=>(
@@ -69,7 +65,7 @@ return (
 									<div className="header-icons">
 										<a className="shopping-cart" href="/cart"><i className="fas fa-shopping-cart"></i></a>
 										<a className="shopping-cart" href="/wishlist"><i className="fas fa-heart"></i></a>
-										{/* <a className="mobile-hide search-bar-icon" href="#"><i className="fas fa-heart"></i></a> */}
+										<a className="shopping-cart" href="/profile"><i className="fas fa-heart"></i></a>
 									</div>
 								</li>
 							</ul>

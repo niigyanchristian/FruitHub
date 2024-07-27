@@ -1,4 +1,4 @@
-"use client"; // This is a client component 👈🏽
+"use client";
 import { useEffect, useState } from "react";
 import { PaystackConsumer } from 'react-paystack';
 import { Loader } from '@googlemaps/js-api-loader';
@@ -9,7 +9,9 @@ import AppHeader from "../Components/AppHeader";
 import AppFooter from "../Components/AppFooter";
 import AppCopyRight from "../Components/AppCopyRight";
 import AppCompanies from "../Components/AppCompanies";
-import { getAllShops, GetShoppingDetails, mapDistance, PlaceOrder } from "../actions";
+import { GetShoppingDetails, mapDistance, PlaceOrder } from "../actions";
+import AppPreLoader from "../Components/AppPreLoader";
+
 
 export default function Home() {
   const [domLoaded, setDomLoaded] = useState(false);
@@ -20,11 +22,8 @@ export default function Home() {
   const [shipping, setShipping] = useState(null);
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
-//   const [session, setSession] = useState(null);
-//   const [config, setConfig] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
-  const [allShops, setAllShops] = useState([]);
   const [distance, setDistance] = useState(0);
   const [senderEmail, setSenderEmail] = useState('');
 
@@ -41,15 +40,11 @@ export default function Home() {
     setDomLoaded(true);
     myLoad();
 
-    
-
     fetchData().then(data=>{})
   }, []);
 
   const fetchData = async () => {
 	try {
-	  const shops = await getAllShops();
-	  setAllShops(shops);
 
 	  const { cart, email } = await GetShoppingDetails();
 	  setCarts(cart);
@@ -79,10 +74,8 @@ export default function Home() {
   };
 
   async function handleSuccess(reference,add,lng,lat,price){
-	// console.log('====================================');
-	console.log(name,contact,note);
-	console.log(add,lng,lat,price);
-	// console.log('====================================');
+	  console.log(name,contact,note);
+	  console.log(add,lng,lat,price);
     if (reference.status === 'success') {
       const res = await PlaceOrder(reference.reference, name, add, contact, note,lng,lat,price);
       if (res) {
@@ -133,34 +126,10 @@ export default function Home() {
         <html lang="en">
           <AppHead />
           <body>
-            {preLoad && (
-              <div className="loader">
-                <div className="loader-inner">
-                  <div className="circle"></div>
-                </div>
-              </div>
-            )}
+            {preLoad && <AppPreLoader/>}
 
             <AppHeader />
 
-            <div className="search-area">
-              <div className="container">
-                <div className="row">
-                  <div className="col-lg-12">
-                    <span className="close-btn">
-                      <i className="fas fa-window-close"></i>
-                    </span>
-                    <div className="search-bar">
-                      <div className="search-bar-tablecell">
-                        <h3>Search For:</h3>
-                        <input type="text" placeholder="Keywords" />
-                        <button type="submit">Search <i className="fas fa-search"></i></button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             <div className="breadcrumb-section breadcrumb-bg">
               <div className="container">
@@ -175,6 +144,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Form */}
             <div className="checkout-section mt-150 mb-150">
               <div className="container">
                 <div className="row">
@@ -218,11 +188,8 @@ export default function Home() {
                                     {results.map((result, index) => (
                                       <li key={index} onClick={async () => {
                                         setAddress(result.name);
-										handleChange(setLongitude(parseFloat(result.lng)))
-										handleChange(setLatitude(parseFloat(result.lat)))
-										
-										// setLatitude(parseFloat(result.lat));
-										
+										// handleChange(setLongitude(parseFloat(result.lng)));
+										// handleChange(setLatitude(parseFloat(result.lat)));
 
                                         const dis = await mapDistance({ lat: parseFloat(result.lat), lng: parseFloat(result.lng) });
                                         const fee = ((distance + dis) / 10).toFixed(2);

@@ -31,38 +31,10 @@ return (
 					</div>
 				</div>
                 ))}
-				{/* <div className="col-lg-4 col-md-6">
-					<div className="single-latest-news">
-						<a href="single-news.html"><div className="latest-news-bg news-bg-2"></div></a>
-						<div className="news-text-box">
-							<h3><a href="single-news.html">A man's worth has its season, like tomato.</a></h3>
-							<p className="blog-meta">
-								<span className="author"><i className="fas fa-user"></i> Admin</span>
-								<span className="date"><i className="fas fa-calendar"></i> 27 December, 2019</span>
-							</p>
-							<p className="excerpt">Vivamus lacus enim, pulvinar vel nulla sed, scelerisque rhoncus nisi. Praesent vitae mattis nunc, egestas viverra eros.</p>
-							<a href="single-news.html" className="read-more-btn">read more <i className="fas fa-angle-right"></i></a>
-						</div>
-					</div>
-				</div> */}
-				{/* <div className="col-lg-4 col-md-6 offset-md-3 offset-lg-0">
-					<div className="single-latest-news">
-						<a href="single-news.html"><div className="latest-news-bg news-bg-3"></div></a>
-						<div className="news-text-box">
-							<h3><a href="single-news.html">Good thoughts bear good fresh juicy fruit.</a></h3>
-							<p className="blog-meta">
-								<span className="author"><i className="fas fa-user"></i> Admin</span>
-								<span className="date"><i className="fas fa-calendar"></i> 27 December, 2019</span>
-							</p>
-							<p className="excerpt">Vivamus lacus enim, pulvinar vel nulla sed, scelerisque rhoncus nisi. Praesent vitae mattis nunc, egestas viverra eros.</p>
-							<a href="single-news.html" className="read-more-btn">read more <i className="fas fa-angle-right"></i></a>
-						</div>
-					</div>
-				</div> */}
 			</div>
 			<div className="row">
 				<div className="col-lg-12 text-center">
-					<a href="news.html" className="boxed-btn">More News</a>
+					<a href="news.html" className="boxed-btn">Shop Now</a>
 				</div>
 			</div>
 		</div>

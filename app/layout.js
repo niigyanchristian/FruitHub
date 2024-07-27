@@ -1,3 +1,4 @@
+'use client'
 import '@/public/assets/css/all.min.css';
 import '@/public/assets/bootstrap/css/bootstrap.min.css';
 import '@/public/assets/css/owl.carousel.css';
@@ -6,13 +7,22 @@ import '@/public/assets/css/animate.css';
 import '@/public/assets/css/meanmenu.min.css';
 import '@/public/assets/css/main.css';
 import '@/public/assets/css/responsive.css';
+import { useEffect } from 'react';
+import { getSession } from './actions';
 
-export const metadata = {
-  title: "FruitHub",
-  description: "Created by Christian Nii-Gyan",
-};
+// export const metadata = {
+//   title: "FruitHub",
+//   description: "Created by Christian Nii-Gyan",
+// };
 
 export default function RootLayout({ children }) {
+  useEffect(()=>{
+    getSession().then(data=>{
+      if (!data.isLoggedIn && window.location.pathname !== '/auth') {
+        window.location.href = '/auth';
+        }
+    })
+  },[])
   return (
     <html lang="en">
       <body>{children}</body>

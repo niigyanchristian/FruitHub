@@ -13,7 +13,8 @@ import AppMapScripts from "../../Components/AppMapScripts";
 import AppHeadForProfile from "../../Components/AppHeadForProfile";
 import AppPreLoader from "../../Components/AppPreLoader";
 import Script from "next/script";
-import { AddToCart, getAllShops, getSession, getShopProducts } from "../../actions";
+import { AddToCart, GetAllShops, getSession, getShopProducts } from "../../actions";
+import AppProductCard from "@/app/Components/AppProductCard";
 
 export default function Home({params}) {
 
@@ -31,7 +32,7 @@ export default function Home({params}) {
 	myLoad();
 
     getShopProducts(params.id).then(data=>setProducts(data));
-    getAllShops().then(data=>{
+    GetAllShops().then(data=>{
         setShop(data[0]);
     })
     getSession().
@@ -115,48 +116,17 @@ export default function Home({params}) {
 
 			<div className="row product-lists">
 				{products.map((product,index)=>(
-                    <div key={index} className="col-lg-4 col-md-6 text-center strawberry">
-					<div className="single-product-item">
-						<div className="product-image">
-							<a href={`/product/${product._id}`}><img src={`/assets/img/products/${product.banner}`} alt=""/></a>
-						</div>
-						<h3>{product.name}</h3>
-						<p className="product-price"><span>Per Kg</span> ${product.price} </p>
-						<a onClick={async ()=>{
-                            var res=await AddToCart(product._id,1,product.shop_id);
-                            if(res){
-                                alert("Cart has been added successfully!")
-                            }
-                        }} className="cart-btn"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
+                   <AppProductCard key={index} product={product}/>
                 ))}
-			</div>
-
-			<div className="row">
-				<div className="col-lg-12 text-center">
-					<div className="pagination-wrap">
-						<ul>
-							<li><a href="#">Prev</a></li>
-							<li><a href="#">1</a></li>
-							<li><a className="active" href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">Next</a></li>
-						</ul>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
-	 {/* end products */}
 
 	 {/* footer */}
 	<AppFooter/>
-	 {/* end footer */}
 	
 	 {/* copyright */}
     <AppCopyRight/>
-	 {/* end copyright */}
 
     {/* jquery  */}
        <Script 
@@ -238,15 +208,6 @@ export default function Home({params}) {
        defer 
        src="/assets/js/sticker.js"
        />
-
-       {/* main js  */}
-       {/* <Script 
-       type="text/javascript" 
-       id="hs-script-loader" 
-       async 
-       defer 
-       src="/assets/js/main.js"
-       /> */}
 </body>
 </html>
 )}

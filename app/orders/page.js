@@ -1,7 +1,5 @@
-"use client"; // This is a client component 👈🏽
+"use client";
 import { useEffect, useState } from "react";
-import { PaystackConsumer } from 'react-paystack';
-
 
 import AppHead from "@/app/Components/AppHead";
 import AppScripts from "@/app/Components/AppScripts";
@@ -9,22 +7,18 @@ import AppHeader from "../Components/AppHeader";
 import AppFooter from "../Components/AppFooter";
 import AppCopyRight from "../Components/AppCopyRight";
 import AppCompanies from "../Components/AppCompanies";
-import AppMapScripts from "../Components/AppMapScripts";
-import AppHeadForProfile from "../Components/AppHeadForProfile";
-import { FindDeliveiresByIds, getSession, GetShoppingDetails } from "../actions";
-import AppMapComponent from "../Components/AppMapComponent";
+import { FindDeliveiresByIds, GetShoppingDetails } from "../actions";
+import AppPreLoader from "../Components/AppPreLoader";
+
 
 export default function Home() {
 
 	const [domLoaded, setDomLoaded] = useState(false);
 	const [preLoad, setPreLoader] = useState(true);
 	const [orders, setOrders] = useState([]);
-	const [mapOrders, setMapOrders] = useState(null);
 	const [carts, setCarts] = useState([]);
 	const [wishlist, setWishlist] = useState([]);
 	const [selected, setSelected] = useState();
-	const [Subtotal, setSubtotal] = useState(0);
-	const [shipping, setShipping] = useState(0);
 
   useEffect(() => {
     setDomLoaded(true);
@@ -32,24 +26,13 @@ export default function Home() {
 
 	GetShoppingDetails().
 	then(data=>{
-		console.log('====================================');
-		console.log("Order:",data.orders);
-		console.log('====================================');
-		setCarts(data.cart)
-		// setOrders(data.orders);
+		setCarts(data.cart);
 		setWishlist(data.wishlist);
 		const orderIds = data.orders.map(order => order.orderId);
-
-		
-		return FindDeliveiresByIds(orderIds)
+		return FindDeliveiresByIds(orderIds);
 	}).then(data=>{
-		console.log('====================================');
-		console.log("My orders",data);
-		setMapOrders(data)
-		setOrders(data)
-		console.log('====================================');
-	})
-	// LoadSingleProduct();
+		setOrders(data);
+	});
   }, []);
 
   function myLoad(){
@@ -69,35 +52,10 @@ export default function Home() {
 <body>
 	
 	{/* PreLoader */}
-    {preLoad&&<div className="loader">
-        <div className="loader-inner">
-            <div className="circle"></div>
-        </div>
-    </div>}
-    {/* PreLoader Ends */}
+    {preLoad&&<AppPreLoader/>}
 	
 	{/* header */}
-		<AppHeader/>
-	{/* end header */}
-
-	{/* search area */}
-	<div className="search-area">
-		<div className="container">
-			<div className="row">
-				<div className="col-lg-12">
-					<span className="close-btn"><i className="fas fa-window-close"></i></span>
-					<div className="search-bar">
-						<div className="search-bar-tablecell">
-							<h3>Search For:</h3>
-							<input type="text" placeholder="Keywords"/>
-							<button type="submit">Search <i className="fas fa-search"></i></button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{/* end search arewa */}
+	<AppHeader/>
 	
 	{/* breadcrumb-section */}
 	<div className="breadcrumb-section breadcrumb-bg">
@@ -112,7 +70,6 @@ export default function Home() {
 			</div>
 		</div>
 	</div>
-	{/* end breadcrumb section */}
 
 
 	{/* {mapOrders&&<AppMapComponent orders={mapOrders}/>} */}
@@ -156,7 +113,6 @@ export default function Home() {
                                         </li>
                                     </ul>
                                     </div>
-                                    {/* <div id="tracker"></div> */}
 						        </div>
 						      </div>
 						    </div>
@@ -191,44 +147,22 @@ export default function Home() {
 								</tr>
 								
 							</tbody>
-							{/* <tbody className="checkout-details">
-								<tr>
-									<td>Subtotal</td>
-									<td>${Subtotal}</td>
-								</tr>
-								<tr>
-									<td>Shipping</td>
-									<td>${shipping}</td>
-								</tr>
-								<tr>
-									<td>Total</td>
-									<td>${Subtotal+shipping}</td>
-								</tr>
-							</tbody> */}
 						</table>
-						{/* <a onClick={()=>PlaceOrder()} className="boxed-btn">Place Order</a> */}
-						{/* <PaystackConsumer {...componentProps} >
-          {({initializePayment}) => <a className="boxed-btn" onClick={() => initializePayment(handleSuccess, handleClose)}>Place Order</a>}
-        </PaystackConsumer> */}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	{/* end check out section */}
 
 
 	{/* logo carousel  */}
 	<AppCompanies/>
-	 {/* end logo carousel  */}
 
 	{/* footer  */}
 	<AppFooter/>
-	{/* end footer  */}
 	
 	 {/* copyright  */}
 	<AppCopyRight/>
-	 {/* end copyright  */}
 	
     <AppScripts/>
 </body>

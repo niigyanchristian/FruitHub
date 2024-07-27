@@ -39,7 +39,6 @@ export const login = async(email,password)=>{
         session.isLoggedIn=true;
 
         await session.save();
-        console.log("session:",session)
         redirect('/')
     }
 
@@ -49,7 +48,6 @@ export const login = async(email,password)=>{
 export const regiser = async(username,email,password)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
-    console.log(username,email,password)
 
     // Make a post request to server for signup
     const results = await axios({
@@ -73,7 +71,6 @@ export const regiser = async(username,email,password)=>{
     session.isLoggedIn=true;
     
     await session.save();
-    console.log("session:",session)
     redirect('/')
 }
 
@@ -113,9 +110,6 @@ export const updatePassword = async(current_password,new_password)=>{
 export const updateProfle = async(username,email,phone,full_name)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
-    // console.log("=>",username,email,phone,full_name)
-
-
     // Make a post request to server for signup
     const results = await axios({
         method: 'put',
@@ -149,7 +143,7 @@ export const logout = async()=>{
 
 
 // Customers
-export const getAllShops =async()=>{
+export const GetAllShops =async()=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
     const results = await axios({
@@ -427,6 +421,20 @@ export const CreateShop =async(name, desc, banner, address, contact, email,longi
     return results.data;
 }
 
+export const DeleteShop =async(shop_id)=>{
+    const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
+
+    const results = await axios({
+        method: 'delete',
+        url: `http://localhost:8000/myshop/${shop_id}`,
+        headers: {
+			'Authorization': `Bearer ${session.userToken}`
+		}
+      });
+
+    return results.data;
+}
+
 export const getMyShopOrders =async(shop_id)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
@@ -446,7 +454,6 @@ export const getMyShopOrders =async(shop_id)=>{
 export const UpdateDeliveryProduct =async(orderId, productId, newStatus)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
-    console.log(orderId, productId, newStatus)
 
     const results = await axios({
         method: 'put',
@@ -492,9 +499,6 @@ export const GetAllOrders =async()=>{
 export const UpdateOrder =async(order_id,status)=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
-    console.log('====================================');
-    console.log(order_id,status);
-    console.log('====================================');
     const results = await axios({
         method: 'PUT',
         url: `http://localhost:8000/shopping/order/status/${order_id}`,
@@ -503,10 +507,6 @@ export const UpdateOrder =async(order_id,status)=>{
 		},
         data:{status:status}
       });
-
-    console.log('====================================');
-    console.log(results.data);
-    console.log('====================================');
     return results.data;
 }
 
@@ -525,9 +525,6 @@ function Manipulator(data, shop_id) {
         });
     });
 
-    console.log('====================================');
-    console.log("shopOrders=>",shopOrders.length);
-    console.log('====================================');
     return shopOrders;
 }
 

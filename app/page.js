@@ -1,53 +1,42 @@
 "use client";
-import { NextScript } from "next/document";
-import Script from "next/script";
+
 import { useEffect, useState } from "react";
 import AppHead from "./Components/AppHead";
 import AppScripts from "./Components/AppScripts";
 import AppPreLoader from "./Components/AppPreLoader";
-import Link from "next/link";
 import AppHeader from "./Components/AppHeader";
 import AppFooter from "./Components/AppFooter";
 import AppCopyRight from "./Components/AppCopyRight";
 import AppCompanies from "./Components/AppCompanies";
-import { AddToCart, getAllShops, getMyShops, getSession, mapDistance } from "./actions";
-import { redirect } from "next/navigation";
+import { AddToCart, GetAllShops, GetProducts } from "./actions";
 import ShopComponent from "./Components/ShopComponent";
-// import 'assets/js/bootstrap.bundle.min.js';
+import AppProductCard from "./Components/AppProductCard";
+
 
 export default function Home() {
 
 	const [domLoaded, setDomLoaded] = useState(false);
 	const [preLoad, setPreLoader] = useState(true);
 	const [products, setProducts] = useState([]);
+	const [promotionProduct, setPromotionProduct] = useState([]);
+	const [promotionShop, setPromotionShop] = useState([]);
 	const [allShops, setAllShops] = useState([]);
-	const [session, setSession] = useState(null);
-	const [myShops, setMyShops] = useState(null);
 
 
   useEffect(() => {
     setDomLoaded(true);
-	LoadProducts()
 	myLoad();
+	GetProducts().then(data=>{
+		setProducts(data.products.slice(0,3));
+		const randomIndex = Math.floor(Math.random() * data.products.length);
+		setPromotionProduct(data.products[randomIndex]);
 
-	// mapDistance().then(data=>{
-	// 	console.log('====================================');
-	// 	console.log("mapDistance=>",data);
-	// 	console.log('====================================');
-	// })
-	getAllShops().
-	then(data=>setAllShops(data.reverse().slice(0,3)));
-	getMyShops().then(data=>{
-		console.log('====================================');
-		console.log("data:",data);
-		console.log('====================================');
-		setMyShops(data);
-	})
-	getSession().
-	then(data=>{
-		setSession(data);
-		// console.log("Session:",data)
-	})
+		return GetAllShops();
+	}).then(data=>{
+		setAllShops(data.reverse().slice(0,3));
+		const randomIndex = Math.floor(Math.random() * data.length);
+		setPromotionShop(data[randomIndex]);
+	});
   }, []);
 
   function myLoad(){
@@ -56,18 +45,6 @@ export default function Home() {
 	},1500)
   }
 
-
-  function LoadProducts(){
-	fetch('http://localhost:8000/',{
-        method:'get',
-    }).then((data)=>{
-        return data.json();
-    }).then(data=>{
-        setProducts(data.products.slice(0,3));
-    }).catch((e)=>{
-        console.log(e);
-    });
-  }
 
   return (
 <>
@@ -81,7 +58,7 @@ export default function Home() {
     {/* PreLoader Ends */}
 	
 	 {/* header  */}
-	<AppHeader myshops={myShops}/>
+	<AppHeader/>
 	 {/* end header  */}
 	
 	 {/* search area  */}
@@ -114,7 +91,7 @@ export default function Home() {
 							<h1>Delicious Seasonal Fruits</h1>
 							<div className="hero-btns">
 								<a href="/products" className="boxed-btn">Fruit Collection</a>
-								<a href="contact.html" className="bordered-btn">Contact Us</a>
+								<a href="contact.html" className="bordered-btn">Shop list</a>
 							</div>
 						</div>
 					</div>
@@ -122,7 +99,6 @@ export default function Home() {
 			</div>
 		</div>
 	</div>
-	 {/* end hero area  */}
 
 	 {/* features list section  */}
 	<div className="list-section pt-80 pb-80">
@@ -182,28 +158,14 @@ export default function Home() {
 
 			<div className="row">
 				{products.map((product,index)=>(
-					<div key={index} className="col-lg-4 col-md-6 text-center">
-					<div className="single-product-item">
-						<div className="product-image">
-							<a href={`/products/${product._id}`}><img src={`assets/img/products/${product.banner}`} alt=""/></a>
-						</div>
-						<h3>{product.name}</h3>
-						<p className="product-price"><span>{product.unit} in stock</span> ${product.price} </p>
-						{product.unit>0?(<a onClick={async ()=>{
-							var res = await AddToCart(product._id,1,product.shop_id);
-							if(res){
-								alert("Cart has been added successfully!");
-							}
-						}} className="cart-btn"><i className="fas fa-shopping-cart"></i> Add to Cart</a>):(<a className="cart-btn" style={{textDecoration:'line-through',backgroundColor:'#a8a8a8'}}><i className="fas fa-shopping-cart"></i>Unavailable</a>)}
-					</div>
-				</div>
+					<AppProductCard key={index} product={product}/>
 				))}
 			</div>
 		</div>
 	</div>
 	 {/* end product section  */}
 
-	 {/* cart banner section  */}
+	 {/* Promotion section  */}
 	<section className="cart-banner pt-100 pb-100">
     	<div className="container">
         	<div className="row clearfix">
@@ -223,16 +185,22 @@ export default function Home() {
                 {/* Content Column */}
                 <div className="content-column col-lg-6">
 					<h3><span className="orange-text">Deal</span> of the month</h3>
-                    <h4>Hikan Strwaberry</h4>
-                    <div className="text">Quisquam minus maiores repudiandae nobis, minima saepe id, fugit ullam similique! Beatae, minima quisquam molestias facere ea. Perspiciatis unde omnis iste natus error sit voluptatem accusant</div>
+                    <h4>{promotionProduct.name}</h4>
+                    <div className="text">{promotionProduct.desc}</div>
                     {/* Countdown Timer */}
                     <div className="time-counter"><div className="time-countdown clearfix" data-countdown="2020/2/01"><div className="counter-column"><div className="inner"><span className="count">00</span>Days</div></div> <div className="counter-column"><div className="inner"><span className="count">00</span>Hours</div></div>  <div className="counter-column"><div className="inner"><span className="count">00</span>Mins</div></div>  <div className="counter-column"><div className="inner"><span className="count">00</span>Secs</div></div></div></div>
-                	<a href="cart.html" className="cart-btn mt-3"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
+                	<a className="cart-btn mt-3"><i className="fas fa-shopping-cart" 
+					onClick={async()=>{
+						const res = await AddToCart(promotionProduct._id,1,promotionProduct.shop_id);
+						if(res){
+							alert("Cart has been added successfully!");
+						}
+					}}></i> Add to Cart</a>
                 </div>
             </div>
         </div>
     </section>
-     {/* end cart banner section  */}
+     {/* end promotion section  */}
 
 	 {/* testimonail-section  */}
 	<div className="testimonail-section mt-150 mb-150">
@@ -268,7 +236,7 @@ export default function Home() {
 								</div>
 							</div>
 						</div>
-						<div className="single-testimonial-slider">
+						{/* <div className="single-testimonial-slider">
 							<div className="client-avater">
 								<img src="assets/img/avaters/avatar3.png" alt=""/>
 							</div>
@@ -281,7 +249,7 @@ export default function Home() {
 									<i className="fas fa-quote-right"></i>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>
@@ -301,10 +269,9 @@ export default function Home() {
 				<div className="col-lg-6 col-md-12">
 					<div className="abt-text">
 						<p className="top-sub">Since Year 1999</p>
-						<h2>We are <span className="orange-text">Fruitkha</span></h2>
-						<p>Etiam vulputate ut augue vel sodales. In sollicitudin neque et massa porttitor vestibulum ac vel nisi. Vestibulum placerat eget dolor sit amet posuere. In ut dolor aliquet, aliquet sapien sed, interdum velit. Nam eu molestie lorem.</p>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente facilis illo repellat veritatis minus, et labore minima mollitia qui ducimus.</p>
-						<a href="about.html" className="boxed-btn mt-4">know more</a>
+						<h2>We are <span className="orange-text">{promotionShop.name}</span></h2>
+						<p>{promotionShop.name}</p>
+						<a href={`/shop/${promotionShop._id}`} className="boxed-btn mt-4">know more</a>
 					</div>
 				</div>
 			</div>
@@ -315,9 +282,9 @@ export default function Home() {
 	 {/* shop banner  */}
 	<section className="shop-banner">
     	<div className="container">
-        	<h3>December sale is on! <br/> with big <span className="orange-text">Discount...</span></h3>
-            <div className="sale-percent"><span>Sale! <br/> Upto</span>50% <span>off</span></div>
-            <a href="shop.html" className="cart-btn btn-lg">Shop Now</a>
+        	<h3>July sale is on! <br/> with big <span className="orange-text">Discount...</span></h3>
+            <div className="sale-percent"><span>Sale! <br/> Upto</span>30% <span>off</span></div>
+            <a href={`/shop/${promotionShop._id}`} className="cart-btn btn-lg">Shop Now</a>
         </div>
     </section>
 	 {/* end shop banner  */}
@@ -340,8 +307,4 @@ export default function Home() {
 	 <AppScripts/>
 </body>
 </html>
-
-)}
-</>
-  );
-}
+)}</>);}

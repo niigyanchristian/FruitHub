@@ -1,4 +1,4 @@
-"use client"; // This is a client component 👈🏽
+"use client";
 import { useEffect, useState } from "react";
 
 import AppHead from "@/app/Components/AppHead";
@@ -6,10 +6,8 @@ import AppScripts from "@/app/Components/AppScripts";
 import AppHeader from "../Components/AppHeader";
 import AppFooter from "../Components/AppFooter";
 import AppCopyRight from "../Components/AppCopyRight";
-import { getSession } from "../actions";
-
-
-
+import { DeleteFromCart, GetShoppingDetails } from "../actions";
+import AppPreLoader from "../Components/AppPreLoader";
 
 export default function Home() {
 
@@ -17,17 +15,11 @@ export default function Home() {
 	const [preLoad, setPreLoader] = useState(true);
 	const [carts, setCarts] = useState([]);
 	const [Subtotal, setSubtotal] = useState(0);
-	const [shipping, setShipping] = useState(0);
-	const [session, setSession] = useState(null);
 
   useEffect(() => {
     setDomLoaded(true);
 	myLoad();
-	getSession().
-	then(data=>{
-		LoadCarts(data.userToken);
-		setSession(data);
-	})
+	fetchData().then(data=>{})
   }, []);
 
 
@@ -38,50 +30,26 @@ export default function Home() {
   }
 
 
-  function LoadCarts(token){
-
-
-	fetch('http://localhost:8000/customer/shoping-details',{
-        method:'get',
-		headers: {
-			'Authorization': `Bearer ${token}`
-		},
-    }).then((data)=>{
-        return data.json();
-    }).then(data=>{
-        let newSubtotal = 0; 
-		data.cart.forEach(element => {
-			const itemTotal = element.product.price * element.unit;
-			newSubtotal += itemTotal;
-		});
-		setSubtotal(newSubtotal);
-		newSubtotal>0?setShipping(5):setShipping(0);
-		setCarts(data.cart)
-		console.log('====================================');
-		console.log(data.cart);
-		console.log('====================================');
-    }).catch((e)=>{
-        console.log(e);
-    });
-  }
-
-  function DeleteCart(productId,token){
-
-	console.log("my token",token)
-	fetch(`http://localhost:8000/cart/${productId}`, {
-		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`
+	const handleDeleteCart=async (productId)=>{
+		const res = await DeleteFromCart(productId);
+		if(res){
+			alert('Cart deleted successfuly!');
 		}
-	})
-	.then(response => response.json())
-	.then(data => LoadCarts(token))
-	.catch(error => console.error('Error:', error));
-  }
+		fetchData().then(data=>{})
+	}
 
+  const fetchData = async () => {
+	try {
 
+	  const { cart } = await GetShoppingDetails();
+	  setCarts(cart);
 
+	  const newSubtotal = cart.reduce((acc, item) => acc + item.product.price * item.unit, 0);
+	  setSubtotal(newSubtotal);
+	} catch (error) {
+	  console.error('Error fetching data', error);
+	}
+  };
   return (
 <>
 {domLoaded && (
@@ -90,35 +58,12 @@ export default function Home() {
 <body>
 	
 	{/* PreLoader */}
-    {preLoad&&<div className="loader">
-        <div className="loader-inner">
-            <div className="circle"></div>
-        </div>
-    </div>}
+    {preLoad&& <AppPreLoader/>}
     {/* PreLoader Ends */}
 	
 	 {/* header */}
 		<AppHeader/>
 	 {/* end header */}
-
-	 {/* search area */}
-	<div className="search-area">
-		<div className="container">
-			<div className="row">
-				<div className="col-lg-12">
-					<span className="close-btn"><i className="fas fa-window-close"></i></span>
-					<div className="search-bar">
-						<div className="search-bar-tablecell">
-							<h3>Search For:</h3>
-							<input type="text" placeholder="Keywords"/>
-							<button type="submit">Search <i className="fas fa-search"></i></button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	 {/* end search arewa */}
 	
 	 {/* breadcrumb-section */}
 	<div className="breadcrumb-section breadcrumb-bg">
@@ -156,9 +101,7 @@ export default function Home() {
 
 								{carts.map((cart,index)=>(
 									<tr key={index} className="table-body-row">
-									<td className="product-remove"><a onClick={()=>{
-										DeleteCart(cart.product._id,session.userToken)
-									}}><i className="far fa-window-close"></i></a></td>
+									<td className="product-remove"><a onClick={()=>handleDeleteCart(cart.product._id)}><i className="far fa-window-close"></i></a></td>
 									<td className="product-image"><img src={`/assets/img/products/${cart.product.banner}`} alt=""/></td>
 									<td className="product-name">{cart.product.name}</td>
 									<td className="product-price">${cart.product.price}</td>
@@ -182,32 +125,14 @@ export default function Home() {
 							</thead>
 							<tbody>
 								<tr className="total-data">
-									<td><strong>Subtotal: </strong></td>
-									<td>${Subtotal}</td>
-								</tr>
-								<tr className="total-data">
-									<td><strong>Shipping: </strong></td>
-									<td>${shipping}</td>
-								</tr>
-								<tr className="total-data">
 									<td><strong>Total: </strong></td>
-									<td>${Subtotal+shipping}</td>
+									<td>${Subtotal}</td>
 								</tr>
 							</tbody>
 						</table>
 						<div className="cart-buttons">
 							{/* <a href="cart.html" className="boxed-btn">Update Cart</a> */}
 							<a href="/checkout" className="boxed-btn black">Check Out</a>
-						</div>
-					</div>
-
-					<div className="coupon-section">
-						<h3>Apply Coupon</h3>
-						<div className="coupon-form-wrap">
-							<form action="index.html">
-								<p><input type="text" placeholder="Coupon"/></p>
-								<p><input type="submit" value="Apply"/></p>
-							</form>
 						</div>
 					</div>
 				</div>

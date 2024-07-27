@@ -6,9 +6,10 @@ import AppScripts from "@/app/Components/AppScripts";
 import AppHeader from "../../../Components/AppHeader";
 import AppFooter from "../../../Components/AppFooter";
 import AppCopyRight from "../../../Components/AppCopyRight";
-import { DeleteProduct, getMyShopDetails, getMyShopOrders, getMyShops, getSession, getShopProducts, UpdateDeliveryProduct } from "@/app/actions";
+import { DeleteProduct, DeleteShop, getMyShopDetails, getMyShopOrders, getShopProducts, UpdateDeliveryProduct } from "@/app/actions";
 import AppProductComponent from "@/app/Components/AppProductComponent";
 import AppMapComponent from "@/app/Components/AppMapComponent";
+import AppPreLoader from "@/app/Components/AppPreLoader";
 
 
 export default function Home({params}) {
@@ -17,47 +18,19 @@ export default function Home({params}) {
 	const [preLoad, setPreLoader] = useState(true);
 	const [selected, setSelected] = useState();
 	const [orders, setOrders] = useState([]);
-	const [myShops, setMyShops] = useState([]);
 	const [products, setProducts] = useState([]);
-	const [longitude, setLongitude] = useState('');
-	const [latitude, setLatitude] = useState('');
 	const [status, setStatus] = useState('');
-	const [currentLocation, setCurrentLocation] = useState('');
-	const [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState('');
 	const [myShopsDetails, setMyShopsDetails] = useState({
 		name:'Loading...',desc:'Loading...',});
-	const [session, setSession] = useState(null);
-
-	const handleChangeLongitude = (event) =>setLongitude(event.target.value);
-	const handleChangeLatitude = (event) =>setLatitude(event.target.value);
 	const handleChangeStatus = (event) =>setStatus(event.target.value);
-	const handleChangecurrentLocation = (event) =>setCurrentLocation(event.target.value);
-	const handleChangeEstimatedDeliveryDate = (event) =>setEstimatedDeliveryDate(event.target.value);
+
 	
 
   useEffect(() => {
     setDomLoaded(true);
 	myLoad();
-	// LoadSingleProduct();
-
-	getMyShopDetails(params.id).then(data=>setMyShopsDetails(data));
-	getMyShops().then(data=>setMyShops(data));
-	getMyShopOrders(params.id).then(data=>{
-		setOrders(data)
-		console.log('====================================');
-		console.log("My Shop Orders:",data);
-		console.log('====================================');
-	});
-	// getMyShopOrder
-
-	getShopProducts(params.id).then(data=>{
-		setProducts(data)
-	});
-	getSession().
-	then(data=>{
-		setSession(data);
-	})
 	
+	fetchData().then(data=>{})
   }, []);
 
   function myLoad(){
@@ -67,7 +40,28 @@ export default function Home({params}) {
   }
 
 
-  console.log(orders)
+  const fetchData = async () => {
+	try {
+
+	  const  MyShopDetails= await getMyShopDetails(params.id);
+	  setMyShopsDetails(MyShopDetails);
+	  const MyShopOrders = await getMyShopOrders(params.id);
+	  setOrders(MyShopOrders);
+	  const ShopProducts = await getShopProducts(params.id);
+	  setProducts(ShopProducts);
+
+	} catch (error) {
+	  console.error('Error fetching data', error);
+	}
+  };
+
+  const handleDeleteShop=async()=>{
+	var res = await DeleteShop(myShopsDetails._id);
+	if(res){
+		alert('Shop has been deleted!');
+	}
+	window.location = '/';
+  }
   return (
 <>
 {domLoaded && (
@@ -76,35 +70,10 @@ export default function Home({params}) {
 <body>
 	
 	{/* PreLoader */}
-    {preLoad&&<div className="loader">
-        <div className="loader-inner">
-            <div className="circle"></div>
-        </div>
-    </div>}
-    {/* PreLoader Ends */}
+    {preLoad&&<AppPreLoader/>}
 	
 	{/* header */}
-		<AppHeader myshops={myShops}/>
-	{/* end header */}
-
-	 {/* search area  */}
-	<div className="search-area">
-		<div className="container">
-			<div className="row">
-				<div className="col-lg-12">
-					<span className="close-btn"><i className="fas fa-window-close"></i></span>
-					<div className="search-bar">
-						<div className="search-bar-tablecell">
-							<h3>Search For:</h3>
-							<input type="text" placeholder="Keywords"/>
-							<button type="submit">Search <i className="fas fa-search"></i></button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	 {/* end search arewa  */}
+	<AppHeader/>
 	
 	 {/* breadcrumb-section  */}
 	<div className="breadcrumb-section breadcrumb-bg">
@@ -119,7 +88,6 @@ export default function Home({params}) {
 			</div>
 		</div>
 	</div>
-	 {/* end breadcrumb section  */}
 
 	{/* Shop About  */}
 	<div className="mt-150 mb-150">
@@ -146,10 +114,7 @@ export default function Home({params}) {
 								{products.map((product,index)=>(
 									<li key={index}><a href="single-news.html">{product.name}</a></li>
 								))}
-								{/* <li><a href="single-news.html">A man's worth has its season, like tomato.</a></li>
-								<li><a href="single-news.html">Good thoughts bear good fresh juicy fruit.</a></li>
-								<li><a href="single-news.html">Fall in love with the fresh orange</a></li>
-								<li><a href="single-news.html">Why the berries always look delecious</a></li> */}
+
 							</ul>
 						</div>
 						<div className="tag-section">
@@ -166,7 +131,6 @@ export default function Home({params}) {
 			</div>
 		</div>
 	</div>
-	{/* End Shop About  */}
 
 	{/* Shop Products  */}
 	<div className="latest-news mt-150 mb-150" id="shop-products">
@@ -197,16 +161,12 @@ export default function Home({params}) {
 			</div>
 		</div>
 	</div>
-	{/* End Shop Products  */}
-
-	
 
 	 {/* Add product form  */}
 	<AppProductComponent shopId={params.id}/>
-	 {/* end add product form  */}
 	 
 	{/* Google maps goes here */}
-	<AppMapComponent title="Track shop orders"/>
+	{/* <AppMapComponent title="Track shop orders"/> */}
 
 	{/* ORDER SECTION START */}
 	<div className="checkout-section mt-150 mb-150" id="orders">
@@ -244,8 +204,6 @@ export default function Home({params}) {
 										<option value="Delivered">Delivered</option>
 										</select>
 										<a> </a>
-										{/* <input type="date" placeholder="Latitude" id="dob" value={estimatedDeliveryDate}
-							onChange={handleChangeEstimatedDeliveryDate}/> */}
 										</p>
 
 								<p></p>
@@ -254,7 +212,6 @@ export default function Home({params}) {
 										var res =await UpdateDeliveryProduct(order.orderId,order.product._id,status);
 										
 										if(res._id){
-											console.log(res)
 											alert("Delivery updated!")
 											getMyShopOrders(params.id).then(data=>{
 												setOrders(data)
@@ -292,67 +249,25 @@ export default function Home({params}) {
 			</div>
 		</div>
 		</div>
-	{/* ORDER SECTION END */}
 
-	 {/* Comments */}
-	 {/* <div className="mt-150 mb-150" id="comments">
+	{/* Delete Shop */}
+	<div className="col-lg-10 mx-auto px-auto" style={{height:'1px',backgroundColor:'#F28123'}}></div>
+	<div className="checkout-section mt-150 mb-150" id="orders">
 		<div className="container">
+		<h3 style={{color:'red'}}>DELETE SHOP</h3>
+			<p>This will deleted forever</p>
 			<div className="row">
-				<div className="col-lg-12">
-					<div className="single-article-section">
-						<div className="comments-list-wrap">
-							<h3 className="comment-count-title">3 Comments</h3>
-							<div className="comment-list">
-								<div className="single-comment-body">
-									<div className="comment-user-avater">
-										<img src="/assets/img/avaters/avatar1.png" alt=""/>
-									</div>
-									<div className="comment-text-body">
-										<h4>Jenny Joe <span className="comment-date">Aprl 26, 2020</span> <a href="#">reply</a></h4>
-										<p>Nunc risus ex, tempus quis purus ac, tempor consequat ex. Vivamus sem magna, maximus at est id, maximus aliquet nunc. Suspendisse lacinia velit a eros porttitor, in interdum ante faucibus Suspendisse lacinia velit a eros porttitor, in interdum ante faucibus.</p>
-									</div>
-									<div className="single-comment-body child">
-										<div className="comment-user-avater">
-											<img src="/assets/img/avaters/avatar3.png" alt=""/>
-										</div>
-										<div className="comment-text-body">
-											<h4>Simon Soe <span className="comment-date">Aprl 27, 2020</span> <a href="#">reply</a></h4>
-											<p>Nunc risus ex, tempus quis purus ac, tempor consequat ex. Vivamus sem magna, maximus at est id, maximus aliquet nunc. Suspendisse lacinia velit a eros porttitor, in interdum ante faucibus.</p>
-										</div>
-									</div>
-								</div>
-								<div className="single-comment-body">
-									<div className="comment-user-avater">
-										<img src="/assets/img/avaters/avatar2.png" alt=""/>
-									</div>
-									<div className="comment-text-body">
-										<h4>Addy Aoe <span className="comment-date">May 12, 2020</span> <a href="#">reply</a></h4>
-										<p>Nunc risus ex, tempus quis purus ac, tempor consequat ex. Vivamus sem magna, maximus at est id, maximus aliquet nunc. Suspendisse lacinia velit a eros porttitor, in interdum ante faucibus Suspendisse lacinia velit a eros porttitor, in interdum ante faucibus.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-	</div> */}
-	 {/* End comments */}
+			<a className="cart-btn"
+			onClick={handleDeleteShop}>Delete shop</a>
+			</div></div></div>
 
 	{/* footer  */}
 	<AppFooter/>
-	{/* end footer  */}
 	
 	 {/* copyright  */}
 	<AppCopyRight/>
-	 {/* end copyright  */}
 	
     <AppScripts/>
 </body>
 </html>
-
-)}
-</>
-  );
-}
+)}</>);}
