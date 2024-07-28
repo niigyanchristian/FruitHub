@@ -145,10 +145,6 @@ export default function LogIn() {
             </form>
         </div>
     </div> 
-    {/* <script src="/js/login.js"></script> */}
-    {/* <script type="module" src=""></script> */}
-{/* <script nomodule src=""></script> */}
-
 <Script 
        type="module" 
     noModule
