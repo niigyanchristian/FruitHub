@@ -23,7 +23,7 @@ export const login = async(email,password)=>{
     // Make a post request to server for login
     const results = await axios({
         method: 'post',
-        url: 'http://localhost:8000/customer/login',
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/login`,
         data: { email,password }
       });
 
@@ -52,7 +52,7 @@ export const regiser = async(username,email,password)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'post',
-        url: 'http://localhost:8000/customer/signup',
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/signup`,
         data: { email,password,username }
       });
 
@@ -80,7 +80,7 @@ export const updatePassword = async(current_password,new_password)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'patch',
-        url: 'http://localhost:8000/customer/credentials',
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/credentials`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -113,7 +113,7 @@ export const updateProfle = async(username,email,phone,full_name)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'put',
-        url: 'http://localhost:8000/customer/profile',
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/profile`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -148,7 +148,7 @@ export const GetAllShops =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: ' http://localhost:8000/shops',
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shops`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -164,7 +164,7 @@ export const GetProducts =async()=>{
     
     const results = await axios({
         method: 'get',
-        url: ' http://localhost:8000',
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -180,7 +180,7 @@ export const GetProductsByCategory =async(type)=>{
     
     const results = await axios({
         method: 'get',
-        url: `http://localhost:8000/category/${type}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/category/${type}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -195,7 +195,7 @@ export const getShopProducts =async(shop_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `http://localhost:8000/shops/${shop_id}/listings`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shops/${shop_id}/listings`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -210,7 +210,7 @@ export const AddToCart =async(_id,qty,shop_id)=>{
 
     const results = await axios({
         method: 'put',
-        url: `http://localhost:8000/cart`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -224,7 +224,7 @@ export const DeleteFromCart =async(productId)=>{
 
     const results = await axios({
         method: 'DELETE',
-        url: `http://localhost:8000/cart/${productId}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart/${productId}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -238,7 +238,7 @@ export const AddToWishlist =async(_id)=>{
 
     const results = await axios({
         method: 'put',
-        url: `http://localhost:8000/wishlist`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/wishlist`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -253,7 +253,7 @@ export const DeleteFromWishlist =async(_id)=>{
 
     const results = await axios({
         method: 'delete',
-        url: `http://localhost:8000/wishlist/${_id}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/wishlist/${_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -271,7 +271,7 @@ export const PlaceOrder =async(txnId,name,address,contact,note,longitude,latitud
 
     const results = await axios({
         method: 'POST',
-        url: `http://localhost:8000/shopping/order`,
+        url: `${process.env.process.env.NEXT_PUBLIC_BASE_URL}/shopping/order`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -286,7 +286,7 @@ export const FindDeliveiresByIds =async(ids)=>{
 
     const results = await axios({
         method: 'POST',
-        url: `http://localhost:8000/deliveries/ids`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/deliveries/ids`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -301,7 +301,7 @@ export const GetShoppingDetails =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `http://localhost:8000/customer/shoping-details`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/shoping-details`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -314,7 +314,7 @@ export const GetShoppingDetails =async()=>{
 
 //     const results = await axios({
 //         method: 'get',
-//         url: `http://localhost:8000/customer/shoping-details`,
+//         url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/shoping-details`,
 //         headers: {
 // 			'Authorization': `Bearer ${session.userToken}`
 // 		}
@@ -338,7 +338,7 @@ export const getMyShops =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `http://localhost:8000/shop/myshop`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shop/myshop`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -350,7 +350,7 @@ export const getMyShopDetails =async(id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `http://localhost:8000/myshop/${id}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/myshop/${id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -363,7 +363,7 @@ export const AddProduct =async(name,type,unit,suplier,price,banner,shop_id,desc)
 
     const results = await axios({
         method: 'POST',
-        url: `http://localhost:8000/product/create`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/product/create`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -379,7 +379,7 @@ export const UpdateProduct =async(name,type,unit,suplier,price,banner,desc,produ
 
     const results = await axios({
         method: 'PUT',
-        url: `http://localhost:8000/listings/${product_Id}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/listings/${product_Id}`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -395,7 +395,7 @@ export const DeleteProduct =async(product_Id)=>{
 
     const results = await axios({
         method: 'DELETE',
-        url: `http://localhost:8000/listings/${product_Id}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/listings/${product_Id}`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -410,7 +410,7 @@ export const CreateShop =async(name, desc, banner, address, contact, email,longi
 
     const results = await axios({
         method: 'POST',
-        url: `http://localhost:8000/shop/create`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shop/create`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -426,7 +426,7 @@ export const DeleteShop =async(shop_id)=>{
 
     const results = await axios({
         method: 'delete',
-        url: `http://localhost:8000/myshop/${shop_id}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/myshop/${shop_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -440,7 +440,7 @@ export const getMyShopOrders =async(shop_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `http://localhost:8000/shopping/orders/all`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shopping/orders/all`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -457,7 +457,7 @@ export const UpdateDeliveryProduct =async(orderId, productId, newStatus)=>{
 
     const results = await axios({
         method: 'put',
-        url: `http://localhost:8000/shopping/order/${orderId}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shopping/order/${orderId}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -472,7 +472,7 @@ export const getProductDetails =async(product_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `http://localhost:8000/listings/${product_id}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/listings/${product_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -488,7 +488,7 @@ export const GetAllOrders =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `http://localhost:8000/shopping/orders/all`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shopping/orders/all`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -501,7 +501,7 @@ export const UpdateOrder =async(order_id,status)=>{
 
     const results = await axios({
         method: 'PUT',
-        url: `http://localhost:8000/shopping/order/status/${order_id}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shopping/order/status/${order_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
