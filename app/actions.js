@@ -46,7 +46,6 @@ export const login = async(email,password)=>{
     }    
 }
 
-
 const regiserFunc=async (email,password,username)=>{
     try {
         const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
@@ -92,7 +91,8 @@ export const updatePassword = async(current_password,new_password)=>{
         method: 'patch',
         url: `https://fruit-hub.onrender.com/customer/credentials`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
         data: { current_password,new_password }
       });
@@ -125,7 +125,8 @@ export const updateProfle = async(username,email,phone,full_name)=>{
         method: 'put',
         url: `https://fruit-hub.onrender.com/customer/profile`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
         data: { username,email,phone,profile:{full_name}}
       });
@@ -160,7 +161,8 @@ export const GetAllShops =async()=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/shops`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
       });
 
@@ -176,7 +178,8 @@ export const GetProducts =async()=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
       });
 
@@ -192,7 +195,8 @@ export const GetProductsByCategory =async(type)=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/category/${type}`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
       });
 
@@ -207,7 +211,8 @@ export const getShopProducts =async(shop_id)=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/shops/${shop_id}/listings`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
       });
 
@@ -222,7 +227,8 @@ export const AddToCart =async(_id,qty,shop_id)=>{
         method: 'put',
         url: `https://fruit-hub.onrender.com/cart`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
         data:{ _id, qty,shop_id }
       });
@@ -236,7 +242,8 @@ export const DeleteFromCart =async(productId)=>{
         method: 'DELETE',
         url: `https://fruit-hub.onrender.com/cart/${productId}`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
 
@@ -250,7 +257,8 @@ export const AddToWishlist =async(_id)=>{
         method: 'put',
         url: `https://fruit-hub.onrender.com/wishlist`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
         data:{ _id }
       });
@@ -265,7 +273,8 @@ export const DeleteFromWishlist =async(_id)=>{
         method: 'delete',
         url: `https://fruit-hub.onrender.com/wishlist/${_id}`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
 
@@ -283,7 +292,8 @@ export const PlaceOrder =async(txnId,name,address,contact,note,longitude,latitud
         method: 'POST',
         url: `https://fruit-hub.onrender.com/shopping/order`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
         data:{ txnNumber: txnId,name,address,contact,note,destCoords:{ lng:longitude,lat:latitude },deliveryFee}
       });
@@ -298,7 +308,8 @@ export const FindDeliveiresByIds =async(ids)=>{
         method: 'POST',
         url: `https://fruit-hub.onrender.com/deliveries/ids`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
         data:{ ids: ids }
       });
@@ -313,7 +324,8 @@ export const GetShoppingDetails =async()=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/customer/shoping-details`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
     return results.data;
@@ -350,7 +362,8 @@ export const getMyShops =async()=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/shop/myshop`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
     
@@ -363,7 +376,8 @@ export const getMyShopDetails =async(id)=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/myshop/${id}`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
     return results.data;
@@ -377,7 +391,7 @@ export const AddProduct =async(name,type,unit,suplier,price,banner,shop_id,desc)
         url: `https://fruit-hub.onrender.com/product/create`,
         headers: {
             'Content-Type': 'application/json',
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
 		},
         data:{ name,type,unit,suplier,price,banner,shop_id,desc }
       });
@@ -439,7 +453,8 @@ export const DeleteShop =async(shop_id)=>{
         method: 'delete',
         url: `https://fruit-hub.onrender.com/myshop/${shop_id}`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
 
@@ -453,7 +468,8 @@ export const getMyShopOrders =async(shop_id)=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/shopping/orders/all`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
 
@@ -470,7 +486,8 @@ export const UpdateDeliveryProduct =async(orderId, productId, newStatus)=>{
         method: 'put',
         url: `https://fruit-hub.onrender.com/shopping/order/${orderId}`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
         data:{ productId, newStatus }
       });
@@ -485,7 +502,8 @@ export const getProductDetails =async(product_id)=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/listings/${product_id}`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
 
@@ -501,7 +519,8 @@ export const GetAllOrders =async()=>{
         method: 'get',
         url: `https://fruit-hub.onrender.com/shopping/orders/all`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		}
       });
     return results.data;
@@ -514,7 +533,8 @@ export const UpdateOrder =async(order_id,status)=>{
         method: 'PUT',
         url: `https://fruit-hub.onrender.com/shopping/order/status/${order_id}`,
         headers: {
-			'Authorization': `Bearer ${session.userToken}`
+			'Authorization': `Bearer ${session.userToken}`,
+            'Content-Type': 'application/json'
 		},
         data:{status:status}
       });

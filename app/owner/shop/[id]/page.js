@@ -29,8 +29,39 @@ export default function Home({params}) {
   useEffect(() => {
     setDomLoaded(true);
 	myLoad();
+	console.log('====================================');
+	console.log("params.id=>",params.id);
+	console.log('====================================');
+
+	getMyShopDetails(params.id).
+	then(data=>{
+		console.log('====================================');
+	  console.log("MyShopDetails:",data);
+	  console.log('====================================');
+	  setMyShopsDetails(data);
+	  return getMyShopOrders(params.id);
+	}).then(data=>{
+		console.log('====================================');
+	  console.log("MyShopOrders:",data);
+	  console.log('====================================');
+	  setOrders(data);
+
+	  return getShopProducts(params.id);
+	}).then(data=>{
+		console.log('====================================');
+	  console.log("ShopProducts:",data);
+	  console.log('====================================');
+	  setProducts(data);
+	})
+	.catch(e=>{
+		console.log('====================================');
+		console.log(e.message);
+		console.log('====================================');
+	})
 	
-	fetchData().then(data=>{})
+	// fetchData().then(data=>{}).catch(e=>{
+	// 	console.log(e.message)
+	// })
   }, []);
 
   function myLoad(){
@@ -40,15 +71,15 @@ export default function Home({params}) {
   }
 
 
-  const fetchData = async () => {
+  async function fetchData (){
 	try {
 
-	  const  MyShopDetails= await getMyShopDetails(params.id);
-	  setMyShopsDetails(MyShopDetails);
-	  const MyShopOrders = await getMyShopOrders(params.id);
-	  setOrders(MyShopOrders);
-	  const ShopProducts = await getShopProducts(params.id);
-	  setProducts(ShopProducts);
+	//   const  MyShopDetails= await ;
+	  
+	//   const MyShopOrders = await 
+	  
+	//   const ShopProducts = await 
+	  
 
 	} catch (error) {
 	  console.error('Error fetching data', error);
