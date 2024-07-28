@@ -90,7 +90,7 @@ export default function Home({ params }) {
 				<div className="col-md-7">
 					<div className="single-product-content">
 						<h3>{singleproducts.name}</h3>
-						<p className="single-product-pricing"><span>{singleproducts.unit} in stock</span> ${singleproducts.price}</p>
+						<p className="single-product-pricing"><span>{singleproducts.unit} in stock</span> GH₵{singleproducts.price}</p>
 						<p>{singleproducts.desc}</p>
 						<p><strong>Category: </strong>{singleproducts.type}</p>
 						

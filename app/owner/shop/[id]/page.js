@@ -175,7 +175,7 @@ export default function Home({params}) {
 						<a href={`/product/${product._id}`}><img src={`/assets/img/products/${product.banner}`} alt=""/></a>
 					</div>
 					<h3>{product.name}</h3>
-					<p className="product-price"><span>{product.unit} in stock</span> ${product.price} </p>
+					<p className="product-price"><span>{product.unit} in stock</span> GH₵{product.price} </p>
 					<a className="cart-btn" href={`/owner/shop/product/${product._id}`} ><i className="fas fa-edit"></i> Edit</a>
 					 <a> </a>
 					 <a onClick={async ()=>{
@@ -214,7 +214,7 @@ export default function Home({params}) {
 							<div className="card-header" id="headingOne">
 								<h5 className="mb-0">
 								<button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-								ORDER <a style={{color:'#F28123'}}>#{order._id.toString().substr(14,24)}</a>  - PRICE: <a style={{color:'#F28123'}}>${order.product.price}</a> 
+								ORDER <a style={{color:'#F28123'}}>#{order._id.toString().substr(14,24)}</a>  - PRICE: <a style={{color:'#F28123'}}>GH₵{order.product.price}</a> 
 								-  PRODUCT: <a style={{color:'#F28123'}}>{order.product.name}</a> 
 								- COUNT: <a style={{color:'#F28123'}}>{order.unit}</a> 
 								- STATUS: <a style={{color:'#F28123'}}>{order.product.status}</a> 

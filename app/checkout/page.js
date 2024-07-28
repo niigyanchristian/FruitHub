@@ -243,24 +243,24 @@ export default function Home() {
                           {carts.map((cart, index) => (
                             <tr key={index}>
                               <td>{cart.product.name}</td>
-                              <td>${cart.product.price * cart.unit}</td>
+                              <td>GH₵{cart.product.price * cart.unit}</td>
                             </tr>
                           ))}
                         </tbody>
                         <tbody className="checkout-details">
                           <tr>
                             <td>Subtotal</td>
-                            <td>${subtotal}</td>
+                            <td>GH₵{subtotal}</td>
                           </tr>
                           {shipping && (
                             <>
                               <tr>
                                 <td>Delivery fee</td>
-                                <td>${shipping}</td>
+                                <td>GH₵{shipping}</td>
                               </tr>
                               <tr>
                                 <td>Total</td>
-                                <td>${parseFloat(subtotal) + parseFloat(shipping)}</td>
+                                <td>GH₵{parseFloat(subtotal) + parseFloat(shipping)}</td>
                               </tr>
                             </>
                           )}

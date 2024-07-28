@@ -1,16 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { PaystackConsumer } from 'react-paystack';
-
 
 import AppHead from "@/app/Components/AppHead";
 import AppScripts from "@/app/Components/AppScripts";
 import AppHeader from "../../Components/AppHeader";
 import AppFooter from "../../Components/AppFooter";
 import AppCopyRight from "../../Components/AppCopyRight";
-import AppCompanies from "../../Components/AppCompanies";
-import AppMapScripts from "../../Components/AppMapScripts";
-import AppHeadForProfile from "../../Components/AppHeadForProfile";
 import AppPreLoader from "../../Components/AppPreLoader";
 import Script from "next/script";
 import { AddToCart, GetAllShops, getSession, getShopProducts } from "../../actions";

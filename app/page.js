@@ -119,7 +119,7 @@ export default function Home() {
 						</div>
 						<div className="content">
 							<h3>Free Shipping</h3>
-							<p>When order over $75</p>
+							<p>When order over GH₵75</p>
 						</div>
 					</div>
 				</div>
