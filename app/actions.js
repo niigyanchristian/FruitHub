@@ -1,8 +1,7 @@
-"use server"
+"use client"
 import { cookies } from "next/headers"
 import {getIronSession} from 'iron-session'
 import axios from "axios";
-import { redirect } from "next/navigation";
 
 
 
@@ -282,7 +281,7 @@ export const PlaceOrder =async(txnId,name,address,contact,note,longitude,latitud
 
     const results = await axios({
         method: 'POST',
-        url: `${process.env.process.env.BASE_URL}/shopping/order`,
+        url: `https://fruit-hub.onrender.com/shopping/order`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
