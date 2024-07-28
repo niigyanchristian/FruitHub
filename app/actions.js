@@ -57,13 +57,10 @@ export const regiser = async(username,email,password)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'post',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/signup`,
+        url: `https://fruit-hub.onrender.com/customer/signup`,
         data: { email,password,username }
       });
 
-    if(email !==results.data.email)  {
-        return {error:"Wrong credentials!"}
-    }
 
     session.userId = results.data.id;
     session.userEmail = results.data.email;
