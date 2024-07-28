@@ -9,7 +9,7 @@ import AppHeader from "../Components/AppHeader";
 import AppFooter from "../Components/AppFooter";
 import AppCopyRight from "../Components/AppCopyRight";
 import AppCompanies from "../Components/AppCompanies";
-import { GetShoppingDetails, mapDistance, PlaceOrder } from "../actions";
+import { GetAllShops, GetShoppingDetails, mapDistance, PlaceOrder } from "../actions";
 import AppPreLoader from "../Components/AppPreLoader";
 
 
@@ -26,7 +26,7 @@ export default function Home() {
   const [results, setResults] = useState([]);
   const [distance, setDistance] = useState(0);
   const [senderEmail, setSenderEmail] = useState('');
-
+  const [allShops, setAllShops] = useState([]);
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [contact, setContact] = useState('');
@@ -40,7 +40,7 @@ export default function Home() {
     setDomLoaded(true);
     myLoad();
 
-    fetchData().then(data=>{})
+    fetchData().then(data=>{}).catch(e=>console.log(e))
   }, []);
 
   const fetchData = async () => {
@@ -51,6 +51,8 @@ export default function Home() {
 
 	  const newSubtotal = cart.reduce((acc, item) => acc + item.product.price * item.unit, 0);
 	  setSubtotal(newSubtotal);
+    const shops = await GetAllShops();
+	  setAllShops(shops);
 
 	  const shopIds = new Set(cart.map((item) => item.product.shop_id));
 	  const distances = await Promise.all(
