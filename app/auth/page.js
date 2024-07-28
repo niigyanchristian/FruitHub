@@ -91,7 +91,8 @@ export default function LogIn() {
                 </div>
                 <div className="btn login" style={{display:'flex',justifyContent:'center',alignItems:'center'}} onClick={async()=>{
                     var res = await login(inputValueEmail,inputValuePassword);
-                    res? alert(res.error):null;
+                    // res? alert(res.error):null;
+                    window.location.href='/'
                 }}><p>Login</p></div>
                 <div className="login-register">
                     <p>Don't have an account? <a className="register-link">Register</a></p>  
@@ -128,13 +129,10 @@ export default function LogIn() {
                     <label for="email">Password</label>
                 </div>
 
-
-
-                {/* <div className="remember-forgot">
-                    <label><input type="checkbox"/>I agree to the terms & conditions</label>
-                </div> */}
-
-                <div className="btn login" style={{display:'flex',justifyContent:'center',alignItems:'center'}} onClick={()=>regiser(inputValueUsername,inputValueEmail,inputValuePassword)}><p>Register</p></div>
+                <div className="btn login" style={{display:'flex',justifyContent:'center',alignItems:'center'}} onClick={async ()=>{
+                    const res = await regiser(inputValueUsername,inputValueEmail,inputValuePassword);
+                    window.location.href='/'
+                }}><p>Register</p></div>
                 
                 <div className="login-register">
                     <p>Already have an account? <a className="login-link">Login</a></p>

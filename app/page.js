@@ -18,8 +18,8 @@ export default function Home() {
 	const [domLoaded, setDomLoaded] = useState(false);
 	const [preLoad, setPreLoader] = useState(true);
 	const [products, setProducts] = useState([]);
-	const [promotionProduct, setPromotionProduct] = useState([]);
-	const [promotionShop, setPromotionShop] = useState([]);
+	const [promotionProduct, setPromotionProduct] = useState(null);
+	const [promotionShop, setPromotionShop] = useState(null);
 	const [allShops, setAllShops] = useState([]);
 
 
@@ -27,15 +27,22 @@ export default function Home() {
     setDomLoaded(true);
 	myLoad();
 	GetProducts().then(data=>{
-		setProducts(data.products.slice(0,3));
-		const randomIndex = Math.floor(Math.random() * data.products.length);
-		setPromotionProduct(data.products[randomIndex]);
+		console.log('============Data================');
+		console.log(data);
+		console.log('====================================');
+		if(data.products.length>0){
+			setProducts(data.products.slice(0,3));
+			const randomIndex = Math.floor(Math.random() * data.products.length);
+			setPromotionProduct(data.products[randomIndex]);
+		}
 
 		return GetAllShops();
 	}).then(data=>{
-		setAllShops(data.reverse().slice(0,3));
-		const randomIndex = Math.floor(Math.random() * data.length);
-		setPromotionShop(data[randomIndex]);
+		if(data.length>0){
+			setAllShops(data.reverse().slice(0,3));
+			const randomIndex = Math.floor(Math.random() * data.length);
+			setPromotionShop(data[randomIndex]);
+		}
 	});
   }, []);
 
@@ -166,7 +173,7 @@ export default function Home() {
 	 {/* end product section  */}
 
 	 {/* Promotion section  */}
-	<section className="cart-banner pt-100 pb-100">
+	{promotionProduct&&<section className="cart-banner pt-100 pb-100">
     	<div className="container">
         	<div className="row clearfix">
             	{/* Image Column */}
@@ -199,7 +206,7 @@ export default function Home() {
                 </div>
             </div>
         </div>
-    </section>
+    </section>}
      {/* end promotion section  */}
 
 	 {/* testimonail-section  */}
@@ -258,7 +265,7 @@ export default function Home() {
 	 {/* end testimonail-section  */}
 	
 	 {/* advertisement section  */}
-	<div className="abt-section mb-150">
+	{promotionShop&&<div className="abt-section mb-150">
 		<div className="container">
 			<div className="row">
 				<div className="col-lg-6 col-md-12">
@@ -276,17 +283,17 @@ export default function Home() {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>}
 	 {/* end advertisement section  */}
 	
 	 {/* shop banner  */}
-	<section className="shop-banner">
+	{promotionShop&&<section className="shop-banner">
     	<div className="container">
         	<h3>July sale is on! <br/> with big <span className="orange-text">Discount...</span></h3>
             <div className="sale-percent"><span>Sale! <br/> Upto</span>30% <span>off</span></div>
             <a href={`/shop/${promotionShop._id}`} className="cart-btn btn-lg">Shop Now</a>
         </div>
-    </section>
+    </section>}
 	 {/* end shop banner  */}
 
 	 {/* latest shops  */}
