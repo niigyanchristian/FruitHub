@@ -18,12 +18,13 @@ export const getSession=async ()=>{
 }
 
 export const login = async(email,password)=>{
-    const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
+    try {
+        const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
     // Make a post request to server for login
     const results = await axios({
         method: 'post',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/login`,
+        url: `${process.env.BASE_URL}/customer/login`,
         data: { email,password }
       });
 
@@ -41,26 +42,28 @@ export const login = async(email,password)=>{
         await session.save();
         redirect('/')
     }
+    } catch (error) {
+        console.log("Login->Error msg:",error.message);   
+    }
 
 
     
 }
 export const regiser = async(username,email,password)=>{
-    const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
+    try {
+        const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
 
     // Make a post request to server for signup
     const results = await axios({
         method: 'post',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/signup`,
+        url: `${process.env.BASE_URL}/customer/signup`,
         data: { email,password,username }
       });
 
     if(email !==results.data.email)  {
         return {error:"Wrong credentials!"}
     }
-
-    
 
     session.userId = results.data.id;
     session.userEmail = results.data.email;
@@ -72,6 +75,9 @@ export const regiser = async(username,email,password)=>{
     
     await session.save();
     redirect('/')
+    } catch (error) {
+        console.log("Login->Error msg:",error.message);
+    }
 }
 
 export const updatePassword = async(current_password,new_password)=>{
@@ -80,7 +86,7 @@ export const updatePassword = async(current_password,new_password)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'patch',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/credentials`,
+        url: `${process.env.BASE_URL}/customer/credentials`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -113,7 +119,7 @@ export const updateProfle = async(username,email,phone,full_name)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'put',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/profile`,
+        url: `${process.env.BASE_URL}/customer/profile`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -148,7 +154,7 @@ export const GetAllShops =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shops`,
+        url: `${process.env.BASE_URL}/shops`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -164,7 +170,7 @@ export const GetProducts =async()=>{
     
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+        url: `${process.env.BASE_URL}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -180,7 +186,7 @@ export const GetProductsByCategory =async(type)=>{
     
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/category/${type}`,
+        url: `${process.env.BASE_URL}/category/${type}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -195,7 +201,7 @@ export const getShopProducts =async(shop_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shops/${shop_id}/listings`,
+        url: `${process.env.BASE_URL}/shops/${shop_id}/listings`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -210,7 +216,7 @@ export const AddToCart =async(_id,qty,shop_id)=>{
 
     const results = await axios({
         method: 'put',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
+        url: `${process.env.BASE_URL}/cart`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -224,7 +230,7 @@ export const DeleteFromCart =async(productId)=>{
 
     const results = await axios({
         method: 'DELETE',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart/${productId}`,
+        url: `${process.env.BASE_URL}/cart/${productId}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -238,7 +244,7 @@ export const AddToWishlist =async(_id)=>{
 
     const results = await axios({
         method: 'put',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/wishlist`,
+        url: `${process.env.BASE_URL}/wishlist`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -253,7 +259,7 @@ export const DeleteFromWishlist =async(_id)=>{
 
     const results = await axios({
         method: 'delete',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/wishlist/${_id}`,
+        url: `${process.env.BASE_URL}/wishlist/${_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -271,7 +277,7 @@ export const PlaceOrder =async(txnId,name,address,contact,note,longitude,latitud
 
     const results = await axios({
         method: 'POST',
-        url: `${process.env.process.env.NEXT_PUBLIC_BASE_URL}/shopping/order`,
+        url: `${process.env.process.env.BASE_URL}/shopping/order`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -286,7 +292,7 @@ export const FindDeliveiresByIds =async(ids)=>{
 
     const results = await axios({
         method: 'POST',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/deliveries/ids`,
+        url: `${process.env.BASE_URL}/deliveries/ids`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -301,7 +307,7 @@ export const GetShoppingDetails =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/shoping-details`,
+        url: `${process.env.BASE_URL}/customer/shoping-details`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -314,7 +320,7 @@ export const GetShoppingDetails =async()=>{
 
 //     const results = await axios({
 //         method: 'get',
-//         url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/shoping-details`,
+//         url: `${process.env.BASE_URL}/customer/shoping-details`,
 //         headers: {
 // 			'Authorization': `Bearer ${session.userToken}`
 // 		}
@@ -338,7 +344,7 @@ export const getMyShops =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shop/myshop`,
+        url: `${process.env.BASE_URL}/shop/myshop`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -350,7 +356,7 @@ export const getMyShopDetails =async(id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/myshop/${id}`,
+        url: `${process.env.BASE_URL}/myshop/${id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -363,7 +369,7 @@ export const AddProduct =async(name,type,unit,suplier,price,banner,shop_id,desc)
 
     const results = await axios({
         method: 'POST',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/product/create`,
+        url: `${process.env.BASE_URL}/product/create`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -379,7 +385,7 @@ export const UpdateProduct =async(name,type,unit,suplier,price,banner,desc,produ
 
     const results = await axios({
         method: 'PUT',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/listings/${product_Id}`,
+        url: `${process.env.BASE_URL}/listings/${product_Id}`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -395,7 +401,7 @@ export const DeleteProduct =async(product_Id)=>{
 
     const results = await axios({
         method: 'DELETE',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/listings/${product_Id}`,
+        url: `${process.env.BASE_URL}/listings/${product_Id}`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -410,7 +416,7 @@ export const CreateShop =async(name, desc, banner, address, contact, email,longi
 
     const results = await axios({
         method: 'POST',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shop/create`,
+        url: `${process.env.BASE_URL}/shop/create`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -426,7 +432,7 @@ export const DeleteShop =async(shop_id)=>{
 
     const results = await axios({
         method: 'delete',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/myshop/${shop_id}`,
+        url: `${process.env.BASE_URL}/myshop/${shop_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -440,7 +446,7 @@ export const getMyShopOrders =async(shop_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shopping/orders/all`,
+        url: `${process.env.BASE_URL}/shopping/orders/all`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -457,7 +463,7 @@ export const UpdateDeliveryProduct =async(orderId, productId, newStatus)=>{
 
     const results = await axios({
         method: 'put',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shopping/order/${orderId}`,
+        url: `${process.env.BASE_URL}/shopping/order/${orderId}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -472,7 +478,7 @@ export const getProductDetails =async(product_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/listings/${product_id}`,
+        url: `${process.env.BASE_URL}/listings/${product_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -488,7 +494,7 @@ export const GetAllOrders =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shopping/orders/all`,
+        url: `${process.env.BASE_URL}/shopping/orders/all`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -501,7 +507,7 @@ export const UpdateOrder =async(order_id,status)=>{
 
     const results = await axios({
         method: 'PUT',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/shopping/order/status/${order_id}`,
+        url: `${process.env.BASE_URL}/shopping/order/status/${order_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
