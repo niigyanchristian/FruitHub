@@ -65,7 +65,7 @@ return (
 									<div className="header-icons">
 										<a className="shopping-cart" href="/cart"><i className="fas fa-shopping-cart"></i></a>
 										<a className="shopping-cart" href="/wishlist"><i className="fas fa-heart"></i></a>
-										<a className="shopping-cart" href="/profile"><i className="fas fa-heart"></i></a>
+										<a className="shopping-cart" href="/profile"><i className="fa fa-user"></i></a>
 									</div>
 								</li>
 							</ul>

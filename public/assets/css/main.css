@@ -1364,7 +1364,7 @@ a.mobile-show.search-bar-icon:hover {
 
 ----------------------------------------------------------------------------- */
 .hero-bg {
-  background-image: url(../img/hero-bg.jpg);
+  background-image: url(../img/hero-bg1.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -1471,7 +1471,7 @@ input[type="submit"] {
 }
 
 .homepage-bg-1 {
-  background-image: url(../img/hero-bg.jpg);
+  background-image: url(../img/hero-bg1.jpg);
 }
 
 .homepage-bg-2 {

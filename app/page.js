@@ -158,7 +158,7 @@ export default function Home() {
 				<div className="col-lg-8 offset-lg-2 text-center">
 					<div className="section-title">	
 						<h3><span className="orange-text">Our</span> Products</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+						<p>Explore Some of the Amazing Fruits Available on FruitHub</p>
 					</div>
 				</div>
 			</div>
@@ -222,7 +222,7 @@ export default function Home() {
 							<div className="client-meta">
 								<h3>Saira Hakim <span>Local shop owner</span></h3>
 								<p className="testimonial-body">
-									" Sed ut perspiciatis unde omnis iste natus error veritatis et  quasi architecto beatae vitae dict eaque ipsa quae ab illo inventore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium "
+									" Just ordered some fresh apples and oranges from FruitHub, and I’m thrilled with the quality! The variety is fantastic, and the delivery was right on time. I’ll definitely be a repeat customer. Great job, FruitHub! "
 								</p>
 								<div className="last-icon">
 									<i className="fas fa-quote-right"></i>
@@ -236,7 +236,7 @@ export default function Home() {
 							<div className="client-meta">
 								<h3>David Niph <span>Local shop owner</span></h3>
 								<p className="testimonial-body">
-									" Sed ut perspiciatis unde omnis iste natus error veritatis et  quasi architecto beatae vitae dict eaque ipsa quae ab illo inventore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium "
+									" FruitHub makes it so easy to find and buy fresh fruit. The site is user-friendly, and the detailed descriptions and pictures really help in choosing the best options. My recent order arrived in perfect condition, and the fruits are delicious! Thanks for making fruit shopping so convenient." "
 								</p>
 								<div className="last-icon">
 									<i className="fas fa-quote-right"></i>

@@ -161,10 +161,6 @@
 
 
     jQuery(window).on("load",function(){
-        console.log("Fill")
-        console.log("Fill")
-        console.log("Fill")
-        console.log("Fill")
         jQuery(".loader").fadeOut(1000);
     });
 

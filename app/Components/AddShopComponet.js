@@ -28,8 +28,9 @@ return (
 			<div className="row">
 				<div className="col-lg-8 mx-auto mb-5 mb-lg-0">
 					<div className="form-title">
-						<h2>Fill in</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, ratione! Laboriosam est, assumenda. Perferendis, quo alias quaerat aliquid. Corporis ipsum minus voluptate? Dolore, esse natus!</p>
+						<h2>Create Your Shop</h2>
+						<p>Please fill out the form below to create your shop. To accurately set your shop's location, click the button below to automatically get the coordinates of your current location. For the best results, we recommend being at your shop's actual location when you do this.</p>
+						<p>Alternatively, you can input the coordinates manually if needed.</p>
 						<a className="cart-btn" onClick={()=>{
 								if (navigator.geolocation) {
 									navigator.geolocation.getCurrentPosition(

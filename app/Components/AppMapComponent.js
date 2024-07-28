@@ -30,7 +30,7 @@ function AppMapComponent({title='Track your orders',orders=[]}) {
                     lat: parseFloat(element.latitude),
                     lng: parseFloat(element.longitude)
                 },
-                title: element.orderId
+                title: element.orderId.toString().substr(0,8)
             });
         });
         if (navigator.geolocation) {

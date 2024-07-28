@@ -88,7 +88,7 @@ export default function Home() {
 
         const newSubtotal = cart.reduce((acc, item) => acc + item.product.price * item.unit, 0);
         setSubtotal(newSubtotal);
-        setConfig(null);
+        setShipping(0)
       }
     }
   };

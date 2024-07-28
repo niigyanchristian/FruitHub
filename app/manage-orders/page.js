@@ -90,7 +90,7 @@ export default function Home() {
 	</div>
 
 
-	{/* {mapOrders&&<AppMapComponent orders={mapOrders}/>} */}
+	{mapOrders&&<AppMapComponent orders={mapOrders}/>}
 	{/* check out section */}
 	<div className="checkout-section mt-150 mb-150">
 		<div className="container">

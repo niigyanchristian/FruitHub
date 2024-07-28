@@ -48,7 +48,7 @@ export default function LogIn() {
     <link rel="shortcut icon" type="image/png" href="/assets/img/favicon.png"/>
 </head>
 <body>
-    <img className="body__background" style={{position:'fixed',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',zIndex:-1}} src="/assets/img/hero-bg.jpg" ></img>
+    <img className="body__background" style={{position:'fixed',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',zIndex:-1}} src="/assets/img/hero-bg1.jpg" ></img>
     <header>
         {/* <div style={{display:'flex',alignItems:'center'}}>
             <img height="70px" width="70px" className="logoimg" src="/images/img/main_logo_1.png" alt=""/>
