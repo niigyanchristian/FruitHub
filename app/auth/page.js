@@ -95,7 +95,11 @@ export default function LogIn() {
                     var res = await login(inputValueEmail,inputValuePassword);
                     // res? alert(res.error):null;
                     setSending(false)
-                    window.location.href='/'
+                    if(res == true){
+                        window.location.href='/'
+                    }else{
+                        alert(res.error)
+                    }
                 }}><p>{!sending?'Login':'...'}</p></div>
                 <div className="login-register">
                     <p>Don't have an account? <a className="register-link">Register</a></p>  
@@ -136,7 +140,11 @@ export default function LogIn() {
                     setSending(true);
                     const res = await regiser(inputValueUsername,inputValueEmail,inputValuePassword);
                     setSending(false);
-                    window.location.href='/'
+                    if(res == true){
+                        window.location.href='/'
+                    }else{
+                        alert(res)
+                    }
                 }}><p> {!sending?'Register':'...'}</p></div>
                 
                 <div className="login-register">
