@@ -24,7 +24,7 @@ export const login = async(email,password)=>{
     // Make a post request to server for login
     const results = await axios({
         method: 'post',
-        url: `${process.env.BASE_URL}/customer/login`,
+        url: `https://fruit-hub.onrender.com/customer/login`,
         data: { email,password }
       });
 
@@ -44,10 +44,7 @@ export const login = async(email,password)=>{
     }
     } catch (error) {
         console.log("Login->Error msg:",error.message);   
-    }
-
-
-    
+    }    
 }
 
 
@@ -59,7 +56,7 @@ const regiserFunc=async (email,password,username)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'post',
-        url: `${process.env.BASE_URL}/customer/signup`,
+        url: `https://fruit-hub.onrender.com/customer/signup`,
         data: { email,password,username }
       });
 
@@ -94,7 +91,7 @@ export const updatePassword = async(current_password,new_password)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'patch',
-        url: `${process.env.BASE_URL}/customer/credentials`,
+        url: `https://fruit-hub.onrender.com/customer/credentials`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -127,7 +124,7 @@ export const updateProfle = async(username,email,phone,full_name)=>{
     // Make a post request to server for signup
     const results = await axios({
         method: 'put',
-        url: `${process.env.BASE_URL}/customer/profile`,
+        url: `https://fruit-hub.onrender.com/customer/profile`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -162,7 +159,7 @@ export const GetAllShops =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/shops`,
+        url: `https://fruit-hub.onrender.com/shops`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -178,7 +175,7 @@ export const GetProducts =async()=>{
     
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}`,
+        url: `https://fruit-hub.onrender.com`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -194,7 +191,7 @@ export const GetProductsByCategory =async(type)=>{
     
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/category/${type}`,
+        url: `https://fruit-hub.onrender.com/category/${type}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -209,7 +206,7 @@ export const getShopProducts =async(shop_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/shops/${shop_id}/listings`,
+        url: `https://fruit-hub.onrender.com/shops/${shop_id}/listings`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -224,7 +221,7 @@ export const AddToCart =async(_id,qty,shop_id)=>{
 
     const results = await axios({
         method: 'put',
-        url: `${process.env.BASE_URL}/cart`,
+        url: `https://fruit-hub.onrender.com/cart`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -238,7 +235,7 @@ export const DeleteFromCart =async(productId)=>{
 
     const results = await axios({
         method: 'DELETE',
-        url: `${process.env.BASE_URL}/cart/${productId}`,
+        url: `https://fruit-hub.onrender.com/cart/${productId}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -252,7 +249,7 @@ export const AddToWishlist =async(_id)=>{
 
     const results = await axios({
         method: 'put',
-        url: `${process.env.BASE_URL}/wishlist`,
+        url: `https://fruit-hub.onrender.com/wishlist`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -267,7 +264,7 @@ export const DeleteFromWishlist =async(_id)=>{
 
     const results = await axios({
         method: 'delete',
-        url: `${process.env.BASE_URL}/wishlist/${_id}`,
+        url: `https://fruit-hub.onrender.com/wishlist/${_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -300,7 +297,7 @@ export const FindDeliveiresByIds =async(ids)=>{
 
     const results = await axios({
         method: 'POST',
-        url: `${process.env.BASE_URL}/deliveries/ids`,
+        url: `https://fruit-hub.onrender.com/deliveries/ids`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -315,7 +312,7 @@ export const GetShoppingDetails =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/customer/shoping-details`,
+        url: `https://fruit-hub.onrender.com/customer/shoping-details`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -328,7 +325,7 @@ export const GetShoppingDetails =async()=>{
 
 //     const results = await axios({
 //         method: 'get',
-//         url: `${process.env.BASE_URL}/customer/shoping-details`,
+//         url: `https://fruit-hub.onrender.com/customer/shoping-details`,
 //         headers: {
 // 			'Authorization': `Bearer ${session.userToken}`
 // 		}
@@ -355,7 +352,7 @@ export const getMyShops =async()=>{
     console.log('====================================');
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/shop/myshop`,
+        url: `https://fruit-hub.onrender.com/shop/myshop`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -368,7 +365,7 @@ export const getMyShopDetails =async(id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/myshop/${id}`,
+        url: `https://fruit-hub.onrender.com/myshop/${id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -381,7 +378,7 @@ export const AddProduct =async(name,type,unit,suplier,price,banner,shop_id,desc)
 
     const results = await axios({
         method: 'POST',
-        url: `${process.env.BASE_URL}/product/create`,
+        url: `https://fruit-hub.onrender.com/product/create`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -397,7 +394,7 @@ export const UpdateProduct =async(name,type,unit,suplier,price,banner,desc,produ
 
     const results = await axios({
         method: 'PUT',
-        url: `${process.env.BASE_URL}/listings/${product_Id}`,
+        url: `https://fruit-hub.onrender.com/listings/${product_Id}`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -413,7 +410,7 @@ export const DeleteProduct =async(product_Id)=>{
 
     const results = await axios({
         method: 'DELETE',
-        url: `${process.env.BASE_URL}/listings/${product_Id}`,
+        url: `https://fruit-hub.onrender.com/listings/${product_Id}`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -428,7 +425,7 @@ export const CreateShop =async(name, desc, banner, address, contact, email,longi
 
     const results = await axios({
         method: 'POST',
-        url: `${process.env.BASE_URL}/shop/create`,
+        url: `https://fruit-hub.onrender.com/shop/create`,
         headers: {
             'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session.userToken}`
@@ -444,7 +441,7 @@ export const DeleteShop =async(shop_id)=>{
 
     const results = await axios({
         method: 'delete',
-        url: `${process.env.BASE_URL}/myshop/${shop_id}`,
+        url: `https://fruit-hub.onrender.com/myshop/${shop_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -458,7 +455,7 @@ export const getMyShopOrders =async(shop_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/shopping/orders/all`,
+        url: `https://fruit-hub.onrender.com/shopping/orders/all`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -475,7 +472,7 @@ export const UpdateDeliveryProduct =async(orderId, productId, newStatus)=>{
 
     const results = await axios({
         method: 'put',
-        url: `${process.env.BASE_URL}/shopping/order/${orderId}`,
+        url: `https://fruit-hub.onrender.com/shopping/order/${orderId}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
@@ -490,7 +487,7 @@ export const getProductDetails =async(product_id)=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/listings/${product_id}`,
+        url: `https://fruit-hub.onrender.com/listings/${product_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -506,7 +503,7 @@ export const GetAllOrders =async()=>{
 
     const results = await axios({
         method: 'get',
-        url: `${process.env.BASE_URL}/shopping/orders/all`,
+        url: `https://fruit-hub.onrender.com/shopping/orders/all`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		}
@@ -519,7 +516,7 @@ export const UpdateOrder =async(order_id,status)=>{
 
     const results = await axios({
         method: 'PUT',
-        url: `${process.env.BASE_URL}/shopping/order/status/${order_id}`,
+        url: `https://fruit-hub.onrender.com/shopping/order/status/${order_id}`,
         headers: {
 			'Authorization': `Bearer ${session.userToken}`
 		},
