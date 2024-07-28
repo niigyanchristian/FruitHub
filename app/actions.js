@@ -346,9 +346,6 @@ export const GetShoppingDetails =async()=>{
 export const getMyShops =async()=>{
     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
 
-    console.log('====================================');
-    console.log(session);
-    console.log('====================================');
     const results = await axios({
         method: 'get',
         url: `https://fruit-hub.onrender.com/shop/myshop`,
