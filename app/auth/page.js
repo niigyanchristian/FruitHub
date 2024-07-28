@@ -15,6 +15,7 @@ import { login, regiser } from "../actions";
 export default function LogIn() {
 
 	const [domLoaded, setDomLoaded] = useState(false);
+	const [sending, setSending] = useState(false);
 	const [inputValueEmail, setInputValueEmail] = useState(''); 
 	const [inputValuePassword, setInputValuePassword] = useState(''); 
 	const [inputValueUsername, setInputValueUsername] = useState(''); 
@@ -90,10 +91,12 @@ export default function LogIn() {
                     <a href="#">Forgot password?</a>
                 </div>
                 <div className="btn login" style={{display:'flex',justifyContent:'center',alignItems:'center'}} onClick={async()=>{
+                    setSending(true)
                     var res = await login(inputValueEmail,inputValuePassword);
                     // res? alert(res.error):null;
+                    setSending(false)
                     window.location.href='/'
-                }}><p>Login</p></div>
+                }}><p>{!sending?'Login':'...'}</p></div>
                 <div className="login-register">
                     <p>Don't have an account? <a className="register-link">Register</a></p>  
                 </div>
@@ -130,9 +133,11 @@ export default function LogIn() {
                 </div>
 
                 <div className="btn login" style={{display:'flex',justifyContent:'center',alignItems:'center'}} onClick={async ()=>{
+                    setSending(true);
                     const res = await regiser(inputValueUsername,inputValueEmail,inputValuePassword);
+                    setSending(false);
                     window.location.href='/'
-                }}><p>Register</p></div>
+                }}><p> {!sending?'Register':'...'}</p></div>
                 
                 <div className="login-register">
                     <p>Already have an account? <a className="login-link">Login</a></p>
