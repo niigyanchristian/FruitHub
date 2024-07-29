@@ -5,10 +5,10 @@ return (
 <div className="col-lg-4 col-md-6 text-center">
     <div className="single-product-item">
         <div className="product-image">
-            <a href={`/products/${product._id}`}><img src={`/assets/img/products/${product.banner}`} alt=""/></a>
+            <a href={`/products/${product._id}`}><img src={`${product.banner}`}/></a>
         </div>
         <h3>{product.name}</h3>
-        <p className="product-price"><span>{product.unit} in stock</span> ${product.price} </p>
+        <p className="product-price"><span>{product.unit} in stock</span> GH₵{product.price} </p>
         {product.unit>0?(<a onClick={async ()=>{
             var res = await AddToCart(product._id,1,product.shop_id);
             if(res){

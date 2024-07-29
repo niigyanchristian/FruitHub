@@ -39,7 +39,7 @@ export const login = async(email,password)=>{
         session.isLoggedIn=true;
 
         await session.save();
-        return results.data;
+        return true;
     }
     } catch (error) {
         console.log("Login->Error msg:",error.message);   
@@ -330,29 +330,6 @@ export const GetShoppingDetails =async()=>{
       });
     return results.data;
 }
-
-// export const LoadCarts =async()=>{
-//     const session = await getIronSession(cookies(),{password:'ab5b9722-0447-4749-b357-1a2472324dd7',cookieName:'lama-session',cookieOptions:{httpOnly:true}});
-
-//     const results = await axios({
-//         method: 'get',
-//         url: `https://fruit-hub.onrender.com/customer/shoping-details`,
-//         headers: {
-// 			'Authorization': `Bearer ${session.userToken}`
-// 		}
-//       });
-    
-//     let newSubtotal = 0; 
-//     results.data.cart.forEach(element => {
-//         const itemTotal = element.product.price * element.unit;
-//         newSubtotal += itemTotal;
-//     });
-
-      
-//     return {cars:data.cart,newSubtotal};
-// }
-
-
 
 // Shop owners
 export const getMyShops =async()=>{

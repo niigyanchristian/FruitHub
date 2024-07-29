@@ -6,16 +6,16 @@ return (
 				<div className="col-lg-3 col-md-6">
 					<div className="footer-box about-widget">
 						<h2 className="widget-title">About us</h2>
-						<p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+						<p>We provide you with an online platform to buy and sell your fresh fruits.</p>
 					</div>
 				</div>
 				<div className="col-lg-3 col-md-6">
 					<div className="footer-box get-in-touch">
 						<h2 className="widget-title">Get in Touch</h2>
 						<ul>
-							<li>34/8, East Hukupara, Gifirtok, Sadan.</li>
-							<li>support@fruitkha.com</li>
-							<li>+00 111 222 3333</li>
+							<li>Accra, Ghana.</li>
+							<li>niigyanchristian@gmail.com</li>
+							<li>+233 553 999 247</li>
 						</ul>
 					</div>
 				</div>
@@ -23,11 +23,9 @@ return (
 					<div className="footer-box pages">
 						<h2 className="widget-title">Pages</h2>
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="about.html">About</a></li>
-							<li><a href="services.html">Shop</a></li>
-							<li><a href="news.html">News</a></li>
-							<li><a href="contact.html">Contact</a></li>
+							<li><a href="/">Home</a></li>
+							<li><a href="/shops">Shops</a></li>
+							<li><a href="/cart">News</a></li>
 						</ul>
 					</div>
 				</div>

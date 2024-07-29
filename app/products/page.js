@@ -15,6 +15,8 @@ export default function Home({ params }) {
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [session, setSession] = useState(null);
+	// State for the search query
+	const [searchQuery, setSearchQuery] = useState('');
 
 
 
@@ -36,6 +38,21 @@ export default function Home({ params }) {
 	},1500)
   }
 
+  
+   // Function to handle search input changes
+   const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Filter products based on the search query
+  const filteredProducts = products.filter(product => {
+    return (
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.desc.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  
 
   return (
 <>
@@ -93,6 +110,16 @@ export default function Home({ params }) {
 	 {/* more products  */}
 	<div className="more-products mb-150 mt-5">
 		<div className="container">
+		<div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+
+		  style={{borderRadius:'10px',padding:'.6rem'}}
+        />
+      </div>
 		<div className="row">
                 <div className="col-md-12">
                     <div className="product-filters">
@@ -116,19 +143,13 @@ export default function Home({ params }) {
                 </div>
             </div>
 			<div className="row">
-				{products.map((product,index)=>(
-					// <div key={index} className="col-lg-4 col-md-6 text-center">
-					// <div className="single-product-item">
-					// 	<div className="product-image">
-					// 		<a href={`/products/${product._id}`}><img src={`/assets/img/products/${product.banner}`} alt=""/></a>
-					// 	</div>
-					// 	<h3>{product.name}</h3>
-					// 	<p className="product-price"><span>{product.unit} in stock</span> ${product.price} </p>
-					// 	<a href="cart.html" className="cart-btn"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
-					// </div>
-					// </div>
-					<AppProductCard key={index} product={product}/>
-				))}
+			{filteredProducts.length > 0 ? (
+              filteredProducts.map((product, index) => (
+                <AppProductCard key={index} product={product} />
+              ))
+            ) : (
+              <p>No products found</p>
+            )}
 			</div>
 		</div>
 	</div>

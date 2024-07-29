@@ -2,7 +2,7 @@ function AppShopCard({shop}) {
 return (
 <div className="col-lg-4 col-md-6">
     <div className="single-latest-news">
-        <a href={`/shop/${shop._id}`}><img className="latest-news-bg news-bg-1" src={`/assets/img/latest-news/${shop.banner}`}/></a>
+        <a href={`/shop/${shop._id}`}><img className="latest-news-bg news-bg-1" src={`${shop.banner}`}/></a>
         <div className="news-text-box">
             <h3><a href={`/shop/${shop._id}`}>{shop.name}</a></h3>
             <p className="blog-meta">

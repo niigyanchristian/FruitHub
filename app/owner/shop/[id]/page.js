@@ -127,7 +127,7 @@ export default function Home({params}) {
 				<div className="col-lg-8">
 					<div className="single-article-section">
 						<div className="single-article-text">
-							<img className="single-artcile-bg" src={`/assets/img/latest-news/${myShopsDetails?.banner}`}/>
+							<img className="single-artcile-bg" src={`${myShopsDetails?.banner}`}/>
 							<p className="blog-meta">
 								<span className="author">Account Balance:</span><strong>${myShopsDetails.account?.toFixed(2)}</strong>
 							</p>
@@ -172,7 +172,7 @@ export default function Home({params}) {
 				<div key={index} className="col-lg-4 col-md-6 text-center">
 				<div className="single-product-item">
 					<div className="product-image">
-						<a href={`/product/${product._id}`}><img src={`/assets/img/products/${product.banner}`} alt=""/></a>
+						<a href={`/product/${product._id}`}><img src={`${product.banner}`} alt=""/></a>
 					</div>
 					<h3>{product.name}</h3>
 					<p className="product-price"><span>{product.unit} in stock</span> GH₵{product.price} </p>

@@ -27,9 +27,6 @@ export default function Home() {
     setDomLoaded(true);
 	myLoad();
 	GetProducts().then(data=>{
-		console.log('============Data================');
-		console.log(data);
-		console.log('====================================');
 		if(data.products.length>0){
 			setProducts(data.products.slice(0,3));
 			const randomIndex = Math.floor(Math.random() * data.products.length);
@@ -98,7 +95,7 @@ export default function Home() {
 							<h1>Delicious Seasonal Fruits</h1>
 							<div className="hero-btns">
 								<a href="/products" className="boxed-btn">Fruit Collection</a>
-								<a href="contact.html" className="bordered-btn">Shop list</a>
+								<a href="/shops" className="bordered-btn">Shop list</a>
 							</div>
 						</div>
 					</div>

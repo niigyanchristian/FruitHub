@@ -18,7 +18,7 @@ return (
 				{shops.map((shop,index)=>(
                     <div key={index} className="col-lg-4 col-md-6">
 					<div className="single-latest-news">
-						<a href={`/shop/${shop._id}`}><img className="latest-news-bg news-bg-1" src={`/assets/img/latest-news/${shop.banner}`}/></a>
+						<a href={`/shop/${shop._id}`}><img className="latest-news-bg news-bg-1" src={`${shop.banner}`}/></a>
 						<div className="news-text-box">
 							<h3><a href={`/shop/${shop._id}`}>{shop.name}</a></h3>
 							<p className="blog-meta">
@@ -34,7 +34,7 @@ return (
 			</div>
 			<div className="row">
 				<div className="col-lg-12 text-center">
-					<a href="news.html" className="boxed-btn">Shop Now</a>
+					<a href="/shops" className="boxed-btn">Shop Now</a>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { getMyShops } from "../actions";
+import { getMyShops, logout } from "../actions";
 
 function AppHeader() {
 	const [myShops, setMyShops] = useState([]);
@@ -36,19 +36,11 @@ return (
 								
 								<li><a href="#">Pages</a>
 									<ul className="sub-menu">
-										<li><a href="404.html">404 page</a></li>
-										<li><a href="about.html">About</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="checkout.html">Check Out</a></li>
-										<li><a href="contact.html">Contact</a></li>
-										<li><a href="news.html">News</a></li>
-										<li><a href="shop.html">Shop</a></li>
-										<li><a href="/shop">Shop</a></li>
-										<li><a href="/product/create">Create Product</a></li>
-										<li><a href="/checkout">Check Out</a></li>
-										<li><a href="/orders">Orders</a></li>
-										<li><a href="single-product.html">Single Product</a></li>
 										<li><a href="/cart">Cart</a></li>
+										<li><a href="/checkout">Check Out</a></li>
+										<li><a href="/product/create">Create Product</a></li>
+										<li><a href="/orders">Orders</a></li>
+										<li><a href="/shop">Shop</a></li>
 									</ul>
 								</li>
 
@@ -66,6 +58,11 @@ return (
 										<a className="shopping-cart" href="/cart"><i className="fas fa-shopping-cart"></i></a>
 										<a className="shopping-cart" href="/wishlist"><i className="fas fa-heart"></i></a>
 										<a className="shopping-cart" href="/profile"><i className="fa fa-user"></i></a>
+										<a className="shopping-cart" onClick={async()=>{
+											const res =await logout();
+											window.location.reload()
+
+										}}>Logout</a>
 									</div>
 								</li>
 							</ul>
