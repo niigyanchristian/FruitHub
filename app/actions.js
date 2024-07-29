@@ -28,6 +28,7 @@ export const login = async(email,password)=>{
       });
 
     if(!results.data._id)  {
+        console.log(results.data)
         return {error:"Wrong credentials!"}
     }else{
         session.userId = results.data.id;
