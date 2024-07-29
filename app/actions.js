@@ -27,7 +27,7 @@ export const login = async(email,password)=>{
         data: { email,password }
       });
 
-    if(!results.data._id)  {
+    if(!results.data.id)  {
         console.log(results.data)
         return {error:"Wrong credentials!"}
     }else{
