@@ -161,7 +161,7 @@ export default function Home() {
 			</div>
 
 			<div className="row">
-				{products.map((product,index)=>(
+				{products?.map((product,index)=>(
 					<AppProductCard key={index} product={product}/>
 				))}
 			</div>
