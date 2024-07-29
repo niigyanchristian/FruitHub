@@ -11,13 +11,14 @@ import AppCompanies from "./Components/AppCompanies";
 import { AddToCart, GetAllShops, GetProducts } from "./actions";
 import ShopComponent from "./Components/ShopComponent";
 import AppProductCard from "./Components/AppProductCard";
+import AppProductCardEmpty from "./Components/AppProductCardEmpty";
 
 
 export default function Home() {
 
 	const [domLoaded, setDomLoaded] = useState(false);
 	const [preLoad, setPreLoader] = useState(true);
-	const [products, setProducts] = useState([]);
+	const [products, setProducts] = useState();
 	const [promotionProduct, setPromotionProduct] = useState(null);
 	const [promotionShop, setPromotionShop] = useState(null);
 	const [allShops, setAllShops] = useState([]);
@@ -164,6 +165,7 @@ export default function Home() {
 				{products?.map((product,index)=>(
 					<AppProductCard key={index} product={product}/>
 				))}
+				{!products && <AppProductCardEmpty/>}
 			</div>
 		</div>
 	</div>
