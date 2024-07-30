@@ -10,6 +10,7 @@ import { DeleteProduct, DeleteShop, getMyShopDetails, getMyShopOrders, getShopPr
 import AppProductComponent from "@/app/Components/AppProductComponent";
 import AppMapComponent from "@/app/Components/AppMapComponent";
 import AppPreLoader from "@/app/Components/AppPreLoader";
+import AppProductCardEmpty from "@/app/Components/AppProductCardEmpty";
 
 
 export default function Home({params}) {
@@ -131,8 +132,8 @@ export default function Home({params}) {
 							<p className="blog-meta">
 								<span className="author">Account Balance:</span><strong>${myShopsDetails.account?.toFixed(2)}</strong>
 							</p>
-							<h2>{myShopsDetails.name}</h2>
-							<p>{myShopsDetails.desc}</p>
+							<h2>{myShopsDetails?.name}</h2>
+							<p>{myShopsDetails?.desc}</p>
 						</div>
 
 					</div>
@@ -142,7 +143,7 @@ export default function Home({params}) {
 						<div className="recent-posts">
 							<h4>Recent Products</h4>
 							<ul>
-								{products.map((product,index)=>(
+								{products?.map((product,index)=>(
 									<li key={index}><a href="single-news.html">{product.name}</a></li>
 								))}
 
@@ -168,7 +169,7 @@ export default function Home({params}) {
 		<div className="container">
 		<h3>Shop Products</h3>
 			<div className="row">
-			{products.map((product,index)=>(
+			{products&&products.map((product,index)=>(
 				<div key={index} className="col-lg-4 col-md-6 text-center">
 				<div className="single-product-item">
 					<div className="product-image">
@@ -189,6 +190,7 @@ export default function Home({params}) {
 				</div>
 			</div>
 			))}
+			{!products&&<AppProductCardEmpty/>}
 			</div>
 		</div>
 	</div>
